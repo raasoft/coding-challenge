@@ -39,8 +39,9 @@ class FakeDatabase:
         :rtype: str
         """
         res = []
-        for obj in self._associativeArrayId:
-            if obj['name'] == name:
+        for id in self._associativeArrayId:
+            obj = self._associativeArrayId[id]
+            if obj.name == name:
                 res.append(obj)
 
         return res

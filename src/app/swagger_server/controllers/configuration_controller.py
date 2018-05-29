@@ -30,11 +30,8 @@ def add_configuration(configuration):  # noqa: E501
     """
     if connexion.request.is_json:
         configuration = NewConfiguration.from_dict(connexion.request.get_json())  # noqa: E501
-
         configurationObj = Configuration(get_a_uuid(), configuration.name, configuration.value )
 
-        # newConfDict = {'name':configurationObj.name, 'value':configurationObj.value, 'id':configurationObj.uuid }
-        # newConf = json.dumps(newConfDict)
 
         db = FakeDatabase.getInstance()
         db.save(configurationObj.id, configurationObj)
@@ -72,8 +69,21 @@ def find_configuration_by_name(name):  # noqa: E501
     resultList = []
 
     for obj in db.search(name):
-        resutlList.append(Configuration.from_dict(obj))
+        resultList.append(obj)
     
+    if resultList == []:
+        text = '{ \
+        "detail": "Configuration with name ' + str(name) + ' not found", \
+        "status": 404, \
+        "title": "Not Found", \
+        "type": "about:blank" }' 
+
+        resp = make_response(text, 404)
+        resp.headers['Access-Control-Allow-Origin'] = '*'
+        resp.headers['content-type'] = 'application/problem+json'
+
+        return resp
+
     return resultList
 
 
@@ -93,6 +103,7 @@ def get_configuration_by_id(id):  # noqa: E501
     try:
         return db.read(id)
     except Exception as e:
+        
         text = '{ \
         "detail": "Configuration with id ' + str(id) + ' not found", \
         "status": 404, \
@@ -118,4 +129,6 @@ def update_configuration(configuration):  # noqa: E501
     """
     if connexion.request.is_json:
         configuration = Configuration.from_dict(connexion.request.get_json())  # noqa: E501
+
+
     return 'do some magic POR FAVOR!'
