@@ -102,7 +102,7 @@ def get_configuration_by_id(id):  # noqa: E501
 
     try:
         return db.read(id)
-    except Exception as e:
+    except KeyError as e:
         
         text = '{ \
         "detail": "Configuration with id ' + str(id) + ' not found", \
@@ -116,6 +116,7 @@ def get_configuration_by_id(id):  # noqa: E501
 
         return resp
 
+    abort(500)
 
 def update_configuration(configuration):  # noqa: E501
     """Updates an existing configuration
@@ -129,6 +130,30 @@ def update_configuration(configuration):  # noqa: E501
     """
     if connexion.request.is_json:
         configuration = Configuration.from_dict(connexion.request.get_json())  # noqa: E501
+        
+        try:
+            db = FakeDatabase.getInstance()
+            obj = db.read(configuration.id)
 
+            obj.name = configuration.name
+            obj.value = configuration.value
 
-    return 'do some magic POR FAVOR!'
+            db.save(configuration.id, configuration)
+
+            return obj
+
+        except KeyError as e:
+        
+            text = '{ \
+            "detail": "Configuration with id ' + str(configuration.id) + ' not found", \
+            "status": 404, \
+            "title": "Not Found", \
+            "type": "about:blank" }' 
+
+            resp = make_response(text, 404)
+            resp.headers['Access-Control-Allow-Origin'] = '*'
+            resp.headers['content-type'] = 'application/problem+json'
+
+            return resp
+
+        abort(500)
