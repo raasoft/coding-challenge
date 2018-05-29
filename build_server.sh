@@ -13,4 +13,7 @@ cp src/app/swagger_server/controllers/configuration_controller.py build/app/swag
 rm build/app/swagger_server/controllers/fake_database.py
 cp src/app/swagger_server/controllers/fake_database.py build/app/swagger_server/controllers/
 cd build/app
+
+pip3 install -r requirements.txt
+tox -e py35
 python3 -m swagger_server

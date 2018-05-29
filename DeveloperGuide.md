@@ -17,11 +17,12 @@ You need to install on your local machine:
 - `python3`
 - `pip3`
 - `maven`
-- The latest version of `swagger-codegen` from 
+- The latest version of `swagger-codegen` from this [repository](https://github.com/swagger-api/swagger-codegen)
+- `flask_cors`
 
 Make sure each of those dependency has its path added to your `PATH` environment variable.
 
-### OSX
+### Installation of dependencies on OSX
 
 On OSX you can use the `brew` utility to install everything.
 After you installed it (here there are some [instructions](https://brew.sh/)) you can type:
@@ -30,6 +31,7 @@ After you installed it (here there are some [instructions](https://brew.sh/)) yo
 brew install python3
 brew install maven
 brew install --HEAD swagger-codegen
+pip3 install flask_cors
 ```
 
 ### Linux, Windows
