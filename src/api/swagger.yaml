@@ -1,0 +1,198 @@
+swagger: '2.0'
+info:
+  description: A simple HTTP API for managing the configuration values of a system.
+  version: 1.0.0
+  title: Configuration Manager
+  contact:
+    email: riccardo.ancona@gmail.com
+host: 'localhost:8080'
+basePath: /v1
+tags:
+  - name: configuration
+    description: Everything about your configuration
+    externalDocs:
+      description: Find out more
+      url: >-
+        https://paper.dropbox.com/doc/Meeting-notes-Configuration-Manager-JfkOptRAXAdkrYv8n2Y67
+schemes:
+  - http
+paths:
+  /configuration:
+    post:
+      tags:
+        - configuration
+      summary: Adds a new configuration
+      description: ''
+      operationId: addConfiguration
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: configuration
+          description: Configuration object to be added. Duplicates are allowed.
+          required: true
+          schema:
+            $ref: '#/definitions/NewConfiguration'
+      responses:
+        '200':
+          description: Configuration created successfully
+          schema:
+            $ref: '#/definitions/Configuration'
+        '400':
+          description: Bad request. Some values are not in the expected format
+        '415':
+          description: >-
+            Unsupported Media Type. You must give a valid configuration in JSON
+            format
+    put:
+      tags:
+        - configuration
+      summary: Updates an existing configuration
+      description: ''
+      operationId: updateConfiguration
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: configuration
+          description: Configuration object that needs to be updated
+          required: true
+          schema:
+            $ref: '#/definitions/Configuration'
+      responses:
+        '200':
+          description: Configuration updated successfully
+          schema:
+            $ref: '#/definitions/Configuration'
+        '400':
+          description: Bad request. Some values are not in the expected format
+        '404':
+          description: Configuration not found
+        '415':
+          description: >-
+            Unsupported Media Type. You must give a valid configuration in JSON
+            format
+  /configuration/findByName:
+    get:
+      tags:
+        - configuration
+      summary: Finds configuration by name
+      description: Only one name must be provided.
+      operationId: findConfigurationByName
+      produces:
+        - application/json
+      parameters:
+        - in: query
+          name: name
+          description: Name to be searched in configurations
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Configuration'
+        '400':
+          description: Bad Request. Invalid name supplied
+        '404':
+          description: No configuration found with that name
+  '/configuration/{id}':
+    get:
+      tags:
+        - configuration
+      summary: Finds configuration by ID
+      description: Returns a single configuration
+      operationId: getConfigurationById
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: ID of configuration to return
+          required: true
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: Configuration obtained successfully
+          schema:
+            $ref: '#/definitions/Configuration'
+        '400':
+          description: Bad Request. Invalid ID supplied
+        '404':
+          description: No configuration found with that id
+    delete:
+      tags:
+        - configuration
+      summary: Deletes a Configuration
+      description: ''
+      operationId: deleteConfiguration
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: Configuration id to delete
+          required: true
+          type: string
+          format: uuid
+      responses:
+        '204':
+          description: Configuration removed successfully
+        '400':
+          description: Bad Request. Invalid ID supplied
+        '404':
+          description: Configuration not found
+definitions:
+  Configuration:
+    type: object
+    required:
+      - name
+      - value
+    properties:
+      id:
+        type: string
+        format: uuid
+        example: 2e094f21-7a6f-4268-b1ff-c2a376de35ad
+      name:
+        type: string
+        example: MailInbox
+      value:
+        type: object
+        example:
+          widgetList:
+            mailListView:
+                xoffset: 5
+                yoffset: 10
+                isVisible: false
+            todoListView:
+                xoffset: 35
+                yoffset: 310
+                isVisible: true
+  NewConfiguration:
+    type: object
+    required:
+      - name
+      - value
+    properties:
+      name:
+        type: string
+        example: MailInbox
+      value:
+        type: object
+        example:
+          widgetList:
+            mailListView:
+                xoffset: 5
+                yoffset: 10
+                isVisible: false
+            todoListView:
+                xoffset: 35
+                yoffset: 310
+                isVisible: true
