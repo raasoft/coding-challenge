@@ -1,4 +1,4 @@
-# System Configuration Manager
+# Configuration Manager Developer Guide
 
 HTTP API for managing the configuration values of a system.
 
@@ -15,20 +15,8 @@ This section is a stub.
 
 ### Dependencies and Requirements 
 
-This section is a stub.
-
-### Installation
-
-This section is a stub.
-
-### Setting up the application
-
-This section is a stub.
-
-## Usage
-
-This section is a stub.
-
-## Developer Guide
-
-Please refer to [Developer Guide](./DeveloperGuide.md)
+```
+npm install -g bootprint
+brew install maven
+brew install --HEAD swagger-codegen
+```
