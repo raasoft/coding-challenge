@@ -1,3 +1,4 @@
+
 # Configuration Manager Developer Guide
 
 HTTP API for managing the configuration values of a system.
@@ -9,14 +10,46 @@ HTTP API for managing the configuration values of a system.
         - [Setting up the application](#setting-up-the-application)
     - [Usage](#usage)
     - [Developer Guide](#developer-guide)
-## Getting Started
+## Dependencies and Requirements 
 
-This section is a stub.
+You need to install on your local machine:
 
-### Dependencies and Requirements 
+- `python3`
+- `pip3`
+- `maven`
+- The latest version of `swagger-codegen` from 
+
+Make sure each of those dependency has its path added to your `PATH` environment variable.
+
+### OSX
+
+On OSX you can use the `brew` utility to install everything.
+After you installed it (here there are some [instructions](https://brew.sh/)) you can type:
 
 ```
-npm install -g bootprint
+brew install python3
 brew install maven
 brew install --HEAD swagger-codegen
 ```
+
+### Linux, Windows
+
+Those platform are not supported yet.
+
+## Getting Started
+
+To build everything and launch the webapp, go to the main folder of the project and type:
+
+```
+./build_server.sh
+```
+
+Make sure that `./build_server.sh` has executable permission.
+
+It will create a directory called `build` inside the current folder structured like this:
+
+    /app
+    /docs
+
+And will starts the application in development mode on `localhost:8080`.
+Open your browser and navigate to http://localhost:8080 to see the application.
