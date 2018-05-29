@@ -51,7 +51,27 @@ def delete_configuration(id):  # noqa: E501
     :rtype: None
     """
     db = FakeDatabase.getInstance()
-    db.remove(id)
+
+    try:
+        db.remove(id)
+        
+        return ('', 204)
+
+    except KeyError as e:
+        
+        text = '{ \
+        "detail": "Configuration with id ' + str(id) + ' not found", \
+        "status": 404, \
+        "title": "Not Found", \
+        "type": "about:blank" }' 
+
+        resp = make_response(text, 404)
+        resp.headers['Access-Control-Allow-Origin'] = '*'
+        resp.headers['content-type'] = 'application/problem+json'
+
+        return resp
+
+    abort(500)
 
 
 def find_configuration_by_name(name):  # noqa: E501
