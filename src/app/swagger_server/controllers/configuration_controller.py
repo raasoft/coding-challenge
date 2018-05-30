@@ -119,6 +119,19 @@ def get_configuration_by_id(id):  # noqa: E501
 
         return resp
 
+    except ValueError as e:
+        text = '{ \
+        "detail": "Configuration id ' + str(id) + ' is not a valid uuid", \
+        "status": 400, \
+        "title": "Not Found", \
+        "type": "about:blank" }' 
+
+        resp = make_response(text, 400)
+        resp.headers['Access-Control-Allow-Origin'] = '*'
+        resp.headers['content-type'] = 'application/problem+json'
+
+        return resp
+
     abort(500)
 
 def update_configuration(configuration):  # noqa: E501
