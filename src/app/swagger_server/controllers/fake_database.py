@@ -23,11 +23,13 @@ class FakeDatabase:
     def read(self, id):
         """Gets the name of this NewConfiguration.
 
+        return UUID(uuid).version
 
         :return: The name of this NewConfiguration.
         :rtype: str
         """
-        return self._associativeArrayId[id]
+        if uuid.UUID(id).version == 4:
+            return self._associativeArrayId[id]
 
     def remove(self, id):
         """Gets the name of this NewConfiguration.
