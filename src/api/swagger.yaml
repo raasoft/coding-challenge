@@ -125,8 +125,6 @@ paths:
             $ref: '#/definitions/Configuration'
         '400':
           description: Bad Request. Invalid ID supplied
-        '404':
-          description: No configuration found with that id
     delete:
       tags:
         - configuration
@@ -168,13 +166,13 @@ definitions:
         example:
           widgetList:
             mailListView:
-                xoffset: 5
-                yoffset: 10
-                isVisible: false
+              xoffset: 5
+              yoffset: 10
+              isVisible: false
             todoListView:
-                xoffset: 35
-                yoffset: 310
-                isVisible: true
+              xoffset: 35
+              yoffset: 310
+              isVisible: true
   NewConfiguration:
     type: object
     required:
@@ -189,10 +187,10 @@ definitions:
         example:
           widgetList:
             mailListView:
-                xoffset: 5
-                yoffset: 10
-                isVisible: false
+              xoffset: 5
+              yoffset: 10
+              isVisible: false
             todoListView:
-                xoffset: 35
-                yoffset: 310
-                isVisible: true
+              xoffset: 35
+              yoffset: 310
+              isVisible: true

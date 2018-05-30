@@ -86,19 +86,6 @@ def find_configuration_by_name(name):  # noqa: E501
 
     for obj in db.search(name):
         resultList.append(obj)
-    
-    if resultList == []:
-        text = '{ \
-        "detail": "Configuration with name ' + str(name) + ' not found", \
-        "status": 404, \
-        "title": "Not Found", \
-        "type": "about:blank" }' 
-
-        resp = make_response(text, 404)
-        resp.headers['Access-Control-Allow-Origin'] = '*'
-        resp.headers['content-type'] = 'application/problem+json'
-
-        return resp
 
     return resultList
 

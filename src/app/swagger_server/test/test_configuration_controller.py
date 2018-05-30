@@ -81,6 +81,21 @@ class TestConfigurationController(BaseTestCase):
 
     @with_injector(TestDbModule())
     @inject
+    def test_find_configuration_by_name_no_results(self):
+        """Test case for find_configuration_by_name
+
+        Finds configuration by name
+        """
+        query_string = [('name', "StrangeNameNeverInserted")]
+        response = self.client.open(
+            '/v1/configuration/findByName',
+            method='GET',
+            query_string=query_string)
+        self.assert200(response,
+                       'Response body is : ' + response.data.decode('utf-8'))
+
+    @with_injector(TestDbModule())
+    @inject
     def test_get_configuration_by_id(self):
         """Test case for get_configuration_by_id
 
