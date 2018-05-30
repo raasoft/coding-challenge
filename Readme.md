@@ -34,6 +34,16 @@ Make sure that `./run_server.sh` has executable permission as well.
 The application will start in development mode on `localhost:8080`.
 If you open your browser and navigate to http://localhost:8080/v1/ui/ you can interact with it with a custom ui app to test the web app manually.
 
+## Troubleshooting
+
+### OSError: [Errno 48] Address already in use
+
+If this error is shown after the command `./run_server.sh` is issued, it means that there is already a service listening at the address and port used.
+
+At this stage, the address used by the web server is fixed and cannot be changed, so the only way to get rid of this is to shutdown other services using the same address and retry.
+
+In future releases we are going to let the user decide a custom address.
+
 ## Developer Guide
 
 Please refer to [Developer Guide](./DeveloperGuide.md)
