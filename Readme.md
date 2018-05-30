@@ -10,6 +10,7 @@ HTTP API for managing the configuration values of a system.
         - [Other Platforms](#other-platforms)
     - [Building the web app](#building-the-web-app)
     - [Running the web app](#running-the-web-app)
+    - [Troubleshooting](#troubleshooting)
     - [Developer Guide](#developer-guide)
 
 ## Dependencies and Requirements 
