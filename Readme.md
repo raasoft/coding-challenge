@@ -5,11 +5,11 @@ HTTP API for managing the configuration values of a system.
 # TOC (Table of Content)
 
 * [TOC](#TOC)
-    - [Getting Started](#getting-started)
-        - [Dependencies and Requirements](#dependencies-and-requirements)
-        - [Installation](#Installation)
-        - [Setting up the application](#setting-up-the-application)
-    - [Running the web app](#Running-the-web-app)
+    - [Dependencies and Requirements](#dependencies-and-requirements)
+        - [Installation of dependencies on OSX](#installation-of-dependencies-on-osx)
+        - [Other Platforms](#other-platforms)
+    - [Building the web app](#building-the-web-app)
+    - [Running the web app](#running-the-web-app)
     - [Developer Guide](#developer-guide)
 
 ## Dependencies and Requirements 
