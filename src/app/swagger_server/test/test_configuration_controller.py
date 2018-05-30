@@ -62,7 +62,8 @@ class TestConfigurationController(BaseTestCase):
         response = self.client.open(
             '/v1/configuration/{id}'.format(id=sampleConfiguration.id),
             method='DELETE')
-        self.assertEqual(response.status_code, 204, 'Response body is : ' + response.data.decode('utf-8'))
+        self.assertEqual(response.status_code, 204, 
+            'Response body is : ' + response.data.decode('utf-8'))
 
     @with_injector(TestDbModule())
     @inject
@@ -107,6 +108,18 @@ class TestConfigurationController(BaseTestCase):
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
 
+    def test_get_configuration_by_id_with_not_uuid_id(self):
+        """Test case for get_configuration_by_id_with_not_uuid_id
+
+        Finds configuration by ID but should fail since ID is malformed
+        returning an Error 400
+        """
+        response = self.client.open(
+            '/v1/configuration/{id}'.format(id="clearly_malformed_uuid"),
+            method='GET')
+        self.assertEqual(response.status_code, 400, 
+            'Response body is : ' + response.data.decode('utf-8'))
+
     @with_injector(TestDbModule())
     @inject
     def test_update_configuration(self):
@@ -122,6 +135,8 @@ class TestConfigurationController(BaseTestCase):
             content_type='application/json')
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
+
+    
 
 
 if __name__ == '__main__':
