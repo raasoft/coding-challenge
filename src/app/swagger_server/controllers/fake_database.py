@@ -23,8 +23,6 @@ class FakeDatabase:
     def read(self, id):
         """Gets the name of this NewConfiguration.
 
-        return UUID(uuid).version
-
         :return: The name of this NewConfiguration.
         :rtype: str
         """
