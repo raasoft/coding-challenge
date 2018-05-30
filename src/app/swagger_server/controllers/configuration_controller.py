@@ -10,13 +10,9 @@ from flask import make_response
 from flask import Response
 from swagger_server.controllers.fake_database import FakeDatabase
 import json
-import uuid
-import base64
 
 
-def get_a_uuid():
-    u = uuid.uuid4()
-    return str(u)
+
 
 def add_configuration(configuration):  # noqa: E501
     """Adds a new configuration
@@ -29,11 +25,11 @@ def add_configuration(configuration):  # noqa: E501
     :rtype: Configuration
     """
     if connexion.request.is_json:
-        configuration = NewConfiguration.from_dict(connexion.request.get_json())  # noqa: E501
-        configurationObj = Configuration(get_a_uuid(), configuration.name, configuration.value )
-
-
         db = FakeDatabase.getInstance()
+
+        configuration = NewConfiguration.from_dict(connexion.request.get_json())  # noqa: E501
+        configurationObj = Configuration(db.get_a_uuid(), configuration.name, configuration.value )
+
         db.save(configurationObj.id, configurationObj)
 
         return configurationObj

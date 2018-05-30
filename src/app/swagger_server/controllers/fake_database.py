@@ -1,8 +1,15 @@
+import base64
+import uuid
 class FakeDatabase:
     # Here will be the instance stored.
     __instance = None
 
     _associativeArrayId = dict()
+
+
+    def get_a_uuid(self):
+        u = uuid.uuid4()
+        return str(u)
 
     def save(self, id, object):
         """Gets the name of this NewConfiguration.
@@ -46,6 +53,10 @@ class FakeDatabase:
 
         return res
 
+    def load(self, db):
+        self._associativeArrayId = db
+  
+
 
     @staticmethod
     def getInstance():
@@ -53,6 +64,13 @@ class FakeDatabase:
         if FakeDatabase.__instance == None:
             FakeDatabase()
         return FakeDatabase.__instance 
+
+    # @staticmethod
+    # def factoryDB(dictionary):
+    #     """ Static access method. """
+    #     db = FakeDatabase.getInstance()
+    #     FakeDatabase.getInstance()._associativeArrayId = dictionary
+        
 
     def __init__(self):
         """ Virtually private constructor. """
