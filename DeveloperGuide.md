@@ -14,6 +14,16 @@ This is the developer guide for a HTTP API for managing the configuration values
 
 To build everything and launch the webapp, please refer to [this section](Readme.md/#building-the-web-app).
 
+# Unit testing
+
+To launch only the unit test suite, go to the main folder of the project and type:
+
+```
+./unit_tests.sh
+```
+
+Please note that unit tests are automatically launched when building the web app.
+
 # Running the web app
 
 To launch the web app, please refer to [this section](Readme.md/#running-web-app).
