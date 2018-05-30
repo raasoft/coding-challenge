@@ -14,53 +14,16 @@ HTTP API for managing the configuration values of a system.
 
 ## Dependencies and Requirements 
 
-You need to install on your local machine:
+To launch the web app you need to install on your local machine:
 
 - `python3` (with pip)
-- `Java 8`
-- `maven`
-- The latest version of `swagger-codegen` from this [repository](https://github.com/swagger-api/swagger-codegen)
-
-Make sure each of those dependency has its path added to your `PATH` environment variable.
-
-### Installation of dependencies on OSX
-
-On OSX you can use the `brew` utility to install everything.
-After you installed it (here there are some [instructions](https://brew.sh/)) you can type:
-
-```
-brew install python3
-brew cask install homebrew/cask-versions/java8
-brew install maven
-brew install --HEAD swagger-codegen
-```
-
-### Other platforms
-
-Other platforms are not supported yet.
-
-
-## Building the web app
-
-To build everything, go to the main folder of the project and type:
-
-```
-./build_server.sh
-```
-
-Make sure that `./build_server.sh` has executable permission.
-
-It will create a directory called `build` inside the current folder structured like this:
-
-    /app
-    /docs
-
-And will execute unit and functional testing.
-If everything was good and no errors were reported, you are now ready to go and launch the web app.
 
 ## Running the web app
 
-To launch the we bapp, go to the main folder of the project and type:
+If you don't already have a release of the web app, you need to build it first.
+Follow [this section](DeveloperGuide.md#) to build it first, then continue reading here.
+
+To launch the web app, go to the main folder of the project and type:
 
 ```
 ./run_server.sh
