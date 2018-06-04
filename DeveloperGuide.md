@@ -49,7 +49,7 @@ go to the main folder of the project and type:
 ./build_server.sh
 ```
 
-Make sure that `./build_server.sh` has executable permission.
+Make sure that `./build_server.sh` has executable permissions.
 
 It will create a directory called `build` inside the current folder structured like this:
 
@@ -83,6 +83,34 @@ To create an archive that contains all the web server, go to the main folder of 
 An archive will be created inside the `deploy` folder called `configuration_manager.zip` with all you need
 to kickstart you web app.
 
-# Project Structure
+# Project 
+
+## Folder Structure
 
 This section is a stub.
+
+## Preferred Editor
+
+This section is a stub.
+
+## Commit Legend
+
+Commit Type | Emoji
+----------  | -----
+Initial Commit | [🎉 Party Popper](http://emojipedia.org/party-popper/)
+Version Tag | [🔖 Bookmark](http://emojipedia.org/bookmark/)
+New Feature | [✨ Sparkles](http://emojipedia.org/sparkles/)
+Bugfix | [🐛 Bug](http://emojipedia.org/bug/)
+Security Fix | [🔒 Lock](https://emojipedia.org/lock/)
+Metadata | [📇 Card Index](http://emojipedia.org/card-index/)
+Refactoring | [♻️ Black Universal Recycling Symbol](http://emojipedia.org/black-universal-recycling-symbol/)
+Documentation | [📚 Books](http://emojipedia.org/books/)
+Internationalization | [🌐 Globe With Meridians](http://emojipedia.org/globe-with-meridians/)
+Accessibility | [♿ Wheelchair](https://emojipedia.org/wheelchair-symbol/)
+Performance | [🐎 Horse](http://emojipedia.org/horse/)
+Cosmetic | [🎨 Artist Palette](http://emojipedia.org/artist-palette/)
+Tooling | [🔧 Wrench](http://emojipedia.org/wrench/)
+Tests | [🚨 Police Cars Revolving Light](http://emojipedia.org/police-cars-revolving-light/)
+Deprecation | [💩 Pile of Poo](http://emojipedia.org/pile-of-poo/)
+Removal | [🗑️ Wastebasket](http://emojipedia.org/wastebasket/)
+Work In Progress (WIP) | [🚧 Construction Sign](http://emojipedia.org/construction-sign/)

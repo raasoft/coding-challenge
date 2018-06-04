@@ -22,7 +22,7 @@ To launch the web app you need to install on your local machine:
 ## Running the web app
 
 If you don't already have a release of the web app, you need to build it first.
-Follow [this section](DeveloperGuide.md#) to build it first, then continue reading here.
+Follow [this section](#DeveloperGuide.md) to build it first, then continue reading here.
 
 To launch the web app, go to the main folder of the project and type:
 
@@ -33,7 +33,7 @@ To launch the web app, go to the main folder of the project and type:
 Make sure that `./run_server.sh` has executable permission as well.
 
 The application will start in development mode on `localhost:8080`.
-If you open your browser and navigate to http://localhost:8080/v1/ui/ you can interact with it with a custom ui app to test the web app manually.
+If you open your browser and navigate to [http://localhost:8080/v1/ui/](http://localhost:8080/v1/ui/) you can interact with it with a custom ui app to test the web app manually.
 
 ## Troubleshooting
 
