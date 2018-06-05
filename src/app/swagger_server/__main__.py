@@ -11,8 +11,9 @@ def main():
     CORS(app.app)
     app.app.json_encoder = encoder.JSONEncoder
     app.add_api('swagger.yaml', arguments={'title': 'Configuration Manager'})
-    app.run(port=8080)
-
+    cfgPort = 8080
+    cfgUrl = "127.0.0.1"
+    app.run(port=cfgPort, host=cfgUrl)
 
 if __name__ == '__main__':
     main()
