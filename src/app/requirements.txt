@@ -6,3 +6,4 @@ flask_cors >= 0.0
 tox >= 0.0
 pylint >= 0.0
 invoke >= 0.0
+codecov>=1.4.0
