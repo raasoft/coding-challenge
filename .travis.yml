@@ -3,6 +3,6 @@ language: python
 python:
   - "3.6"
 # command to install dependencies
-install: "pip3 install -r requirements.txt"
+install: "cd build/app && pip3 install -r requirements.txt"
 # command to run tests
 script: invoke unittest

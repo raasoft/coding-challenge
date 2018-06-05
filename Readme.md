@@ -1,5 +1,7 @@
 # System Configuration Manager
 
+[![GitHub contributors](https://img.shields.io/github/contributors/raasoft/coding-challenge.svg)](https://github.com/raasoft/coding-challenge/graphs/contributors)
+
 HTTP API for managing the configuration values of a system.
 
 # TOC (Table of Content)
