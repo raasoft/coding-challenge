@@ -27,11 +27,11 @@ Make sure each of those dependency has its path added to your `PATH` environment
 ## Installation of dependencies on OSX
 
 On OSX you can use the `brew` utility to install everything.
-After you installed it (here there are some [instructions](https://brew.sh/)) you can type:
+After you installed it (here there are some [instructions](https://brew.sh/)) you can type (from the main directory of this repository):
 
 ```
 brew install python3
-pip3 install invoke
+pip3 install -r src/app/requirements.txt
 brew cask install homebrew/cask-versions/java8
 brew install maven
 brew install --HEAD swagger-codegen

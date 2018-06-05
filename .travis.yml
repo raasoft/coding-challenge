@@ -1,9 +1,14 @@
 # ref: https://docs.travis-ci.com/user/languages/python
+os:
+  - osx
 language: python
 python:
   - "3.6"
 # command to install dependencies
-install: "pip3 install -r src/app/requirements.txt"
+install: 
+  - pip3 install -r src/app/requirements.txt
+  - brew install maven
+  - brew install --HEAD swagger-codegen
 # command to run tests
 script: python3 -m invoke unittest
 after_success:
