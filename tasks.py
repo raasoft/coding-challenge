@@ -5,9 +5,13 @@ import sys
 
 sourceBasePath = "src/app/"
 buildBasePath = "build/app/"
+
+funcTestsBuildBasePath = "build/funcTests/swagger_client/"
+funcTestsSrcBasePath = "src/app/swagger_server/func_test/"
+
 zipFilename = "configuration_manager"
 
-sourceFiles = ["requirements.txt", 
+SRC_FILES = ["requirements.txt", 
                "test-requirements.txt",
 
                "swagger_server/__main__.py",
@@ -18,9 +22,16 @@ sourceFiles = ["requirements.txt",
 
                "swagger_server/controllers/fake_database.py",
 
+               "swagger_server/controllers/fake_database.py",
+
                "tox.ini"
 
               ]
+
+FUNC_TEST_FILES = ["main.py",
+                   "test/test_configuration_api.py",
+
+                  ]
 
 deployFiles = ["build/app", 
                "build/docs",
@@ -75,8 +86,8 @@ def generate(ctx):
         if not result.ok:
             raise Exception("Cannot run docs generation from API")
 
-        print("Updating generated files with updated business logic...")
-        for f in sourceFiles:
+        print("Updating web app files with updated business logic...")
+        for f in SRC_FILES:
             try:
                 os.remove(buildBasePath+f)
             except OSError as e:
@@ -84,6 +95,25 @@ def generate(ctx):
                     raise e
 
             shutil.copy(sourceBasePath+f,buildBasePath+f)
+
+        print("Generating functional testing from APIs...")
+        cmd = ("swagger-codegen generate -i src/api/swagger.yaml"
+            " -l python -o " + funcTestsBuildBasePath
+            )
+
+        result = ctx.run(cmd, hide=True, warn=True)
+        if not result.ok:
+            raise Exception("Cannot run code generation from API")
+
+        print("Updating functional testing files with updated business logic...")
+        for f in FUNC_TEST_FILES:
+            try:
+                os.remove(funcTestsBuildBasePath + f)
+            except OSError as e:
+                if e.errno != 2:
+                    raise e
+
+            shutil.copy(funcTestsSrcBasePath + f, funcTestsBuildBasePath + f)
 
     except Exception as e:
         print("...with an error! 😡")
@@ -108,7 +138,7 @@ def unittest(ctx):
         cmd = 'tox -e py36'
         result = ctx.run(cmd, hide=False, warn=True)
         if not result.ok:
-           raise Exception("Cannot run `tox` for unit testing")
+           raise Exception("Error during runnig `tox` for unit testing")
 
         os.chdir("../..")
 
@@ -117,7 +147,6 @@ def unittest(ctx):
         print(e)
         sys.exit(-1)
 
-    
     print("\n...successfully! ✅")
 
 @task(splash, generate, unittest)
@@ -126,6 +155,28 @@ def build(ctx):
     print("\n🎉🎉🎉 Coding Challenge app built with success!\n")
     print("Run `./run_server.sh` to launch the web app")
 
+
+@task(build)
+def functionalTests(ctx):
+    """ Generate source code for functional testing of the project """
+    print("\n🚨 Launching functional tests...\n")
+
+    try:
+
+        os.chdir(funcTestsBuildBasePath)
+        cmd = 'tox -e py36'
+        result = ctx.run(cmd, hide=False, warn=True)
+        if not result.ok:
+            raise Exception("Error during functional testing!")
+
+        os.chdir("../..")
+
+    except Exception as e:
+        print("...with an error! 😡")
+        print(e)
+        sys.exit(-1)
+
+    print("...successfully! ✅")
 
 @task(build)
 def deploy(ctx):
