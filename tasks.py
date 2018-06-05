@@ -1,6 +1,7 @@
 from invoke import task
 import shutil
 import os
+import sys
 
 sourceBasePath = "src/app/"
 buildBasePath = "build/app/"
@@ -45,6 +46,7 @@ def clean(ctx):
     except Exception as e:
         print("...with an error! 😡")
         print(e)
+        sys.exit(-1)
     
     print("...successfully! ✅")
 
@@ -86,6 +88,7 @@ def generate(ctx):
     except Exception as e:
         print("...with an error! 😡")
         print(e)
+        sys.exit(-1)
 
     print("...successfully! ✅")
 
@@ -112,6 +115,7 @@ def unittest(ctx):
     except Exception as e:
         print("...with an error! 😡")
         print(e)
+        sys.exit(-1)
 
     
     print("\n...successfully! ✅")
@@ -145,6 +149,7 @@ def deploy(ctx):
     except Exception as e:
         print("...with an error! 😡")
         print(e)
+        sys.exit(-1)
     
     print("...successfully! ✅")
     print("\n🎉🎉🎉 Coding Challenge app " + zipFilename + " created with success!\n")
