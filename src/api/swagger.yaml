@@ -125,6 +125,8 @@ paths:
             $ref: '#/definitions/Configuration'
         '400':
           description: Bad Request. Invalid ID supplied
+        '404':
+          description: Configuration not found
     delete:
       tags:
         - configuration

@@ -22,6 +22,7 @@ from swagger_client.rest import ApiException
 import time
 
 
+# Required by specifications
 API_MAX_ALLOWED_RESPONSE_TIME = 0.150 # ms
 
 class TestConfigurationApi(unittest.TestCase):
