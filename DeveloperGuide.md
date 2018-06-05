@@ -31,6 +31,7 @@ After you installed it (here there are some [instructions](https://brew.sh/)) yo
 
 ```
 brew install python3
+pip install invoke
 brew cask install homebrew/cask-versions/java8
 brew install maven
 brew install --HEAD swagger-codegen
