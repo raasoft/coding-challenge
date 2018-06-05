@@ -1,7 +1,6 @@
 # ref: https://docs.travis-ci.com/user/languages/python
 os:
   - osx
-language: python
 # command to install dependencies
 install: 
   - brew upgrade python
