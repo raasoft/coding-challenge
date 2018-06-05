@@ -1,6 +1,5 @@
 import connexion
 import six
-
 from swagger_server.models.configuration import Configuration  # noqa: E501
 from swagger_server.models.new_configuration import NewConfiguration  # noqa: E501
 from swagger_server import util
@@ -35,6 +34,7 @@ def add_configuration(configuration):  # noqa: E501
         return configurationObj
 
     return 505
+
 
 def delete_configuration(id):  # noqa: E501
     """Deletes a Configuration

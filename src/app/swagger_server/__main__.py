@@ -13,6 +13,7 @@ def main():
     app.add_api('swagger.yaml', arguments={'title': 'Configuration Manager'})
     cfgPort = 8080
     cfgUrl = "127.0.0.1"
+    #cfgUrl = "0.0.0.0"
     app.run(port=cfgPort, host=cfgUrl)
 
 if __name__ == '__main__':
