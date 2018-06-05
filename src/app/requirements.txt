@@ -5,3 +5,4 @@ flask-injector >= 0.0
 flask_cors >= 0.0
 tox >= 0.0
 pylint >= 0.0
+pyinvoke >= 0.0
