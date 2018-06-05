@@ -1,6 +1,7 @@
 # System Configuration Manager
 
 [![Build Status](https://travis-ci.org/raasoft/coding-challenge.svg?branch=master)](https://travis-ci.org/raasoft/coding-challenge)
+[![codecov](https://codecov.io/gh/raasoft/coding-challenge/branch/master/graph/badge.svg)](https://codecov.io/gh/raasoft/coding-challenge)
 [![GitHub contributors](https://img.shields.io/github/contributors/raasoft/coding-challenge.svg)](https://github.com/raasoft/coding-challenge/graphs/contributors)
 
 HTTP API for managing the configuration values of a system.
