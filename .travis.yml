@@ -6,3 +6,5 @@ python:
 install: "pip3 install -r src/app/requirements.txt"
 # command to run tests
 script: python3 -m invoke unittest
+after_success:
+  - codecov 

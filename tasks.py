@@ -15,7 +15,9 @@ sourceFiles = ["requirements.txt",
                "swagger_server/test/__init__.py",
                "swagger_server/test/test_configuration_controller.py",
 
-               "swagger_server/controllers/fake_database.py"
+               "swagger_server/controllers/fake_database.py",
+
+               "tox.ini"
 
               ]
 
