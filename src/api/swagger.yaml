@@ -1,7 +1,7 @@
 swagger: '2.0'
 info:
   description: A simple HTTP API for managing the configuration values of a system.
-  version: 1.0.0
+  version: 1.0.1
   title: Configuration Manager
   contact:
     email: riccardo.ancona@gmail.com
