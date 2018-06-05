@@ -31,7 +31,7 @@ After you installed it (here there are some [instructions](https://brew.sh/)) yo
 
 ```
 brew install python3
-pip install invoke
+pip3 install invoke
 brew cask install homebrew/cask-versions/java8
 brew install maven
 brew install --HEAD swagger-codegen
@@ -47,10 +47,8 @@ To build everything, if all the dependencies mentioned above are already satisfi
 go to the main folder of the project and type:
 
 ```
-./build_server.sh
+invoke build
 ```
-
-Make sure that `./build_server.sh` has executable permissions.
 
 It will create a directory called `build` inside the current folder structured like this:
 
@@ -65,7 +63,7 @@ If everything run smoothly ood and no errors were reported, you are now ready to
 To launch only the unit test suite, go to the main folder of the project and type:
 
 ```
-./unit_tests.sh
+invoke unittest
 ```
 
 Please note that unit tests are automatically launched when building the web app.
@@ -78,10 +76,10 @@ To launch the web app, please refer to [this section](Readme.md/#running-web-app
 
 To create an archive that contains all the web server, go to the main folder of the project and type:
 ```
-./create_archive.sh
+invoke deploy
 ```
 
-An archive will be created inside the `deploy` folder called `configuration_manager.zip` with all you need
+A zip archive will be created inside the `deploy` folder with all you need
 to kickstart you web app.
 
 # Project 
