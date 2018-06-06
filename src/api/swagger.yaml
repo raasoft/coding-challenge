@@ -1,6 +1,10 @@
 swagger: '2.0'
 info:
   description: A simple HTTP API for managing the configuration values of a system.
+    You can test the endpoints listed below here by sending a custom request using this
+    UI or you can copy and paste the command line boilerplate examples presented here.
+    Please note that in all the command line examples that use `curl` you need to remove 
+    backticks `\` from the boilerplate code before trying them in a terminal (this is a known issue).
   version: 1.0.1
   title: Configuration Manager
   contact:
@@ -9,7 +13,7 @@ host: 'localhost:8080'
 basePath: /v1
 tags:
   - name: configuration
-    description: Everything about your configuration
+    description: The main object to save using this APIs
     externalDocs:
       description: Find out more
       url: >-

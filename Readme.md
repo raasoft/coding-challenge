@@ -15,6 +15,7 @@ HTTP API for managing the configuration values of a system.
     - [Building the web app](#building-the-web-app)
     - [Running the web app](#running-the-web-app)
         - [Testing the web app endpoints](#Testing-the-web-app-endpoints)
+    - [API Documentation](#api-documentation)
     - [Troubleshooting](#troubleshooting)
     - [Developer Guide](#developer-guide)
 
@@ -54,9 +55,14 @@ If you use Docker, you can run the web app using docker by issuing:
 ```
 The docker container will expose the application on [http://localhost:8080/](http://localhost:8080/).
 
-## Troubleshooting
+# API Documentation
 
-### OSError: [Errno 48] Address already in use
+If you don't already have a release of the web app, **you need to build it first** to generate documentations.
+Follow [this section](#DeveloperGuide.md) to build it, then you will find API specifications in HTML format in `build/docs/index.html`.
+
+# Troubleshooting
+
+## OSError: [Errno 48] Address already in use
 
 If this error is shown after the web server has started, it means that there is already a service listening at the address and port used.
 
@@ -64,6 +70,6 @@ At this stage, the address used by the web server is fixed and cannot be changed
 
 In future releases we are going to let the user decide a custom address.
 
-## Developer Guide
+# Developer Guide
 
 Please refer to [Developer Guide](./DeveloperGuide.md)
