@@ -4,6 +4,8 @@ from invoke import Executor
 import shutil
 import os
 import sys
+from multiprocessing import Process
+
 
 SRC_BASE_PATH = "src/app/"
 BUILD_BASE_PATH = "build/app/"
@@ -148,14 +150,16 @@ def build(ctx):
     print("\n🎉🎉🎉 Coding Challenge app built with success!\n")
     print("Run `./run_server.sh` to launch the web app")
 
+def launch_webserver(ctx):
+    """thread worker function"""
+    print("\nLaunching web server in background...\n")
 
-@task(splash)
-def validate(ctx):
-    """ Generate source code for functional testing of the project """
-    print("\n🚨 Launching functional tests...\n")
+    cmd = ("./run_server.sh")
+    ctx.run(cmd, hide=True, warn=True)
+    return
 
+def launch_validation_testing(ctx):
     try:
-
         print("Generating functional testing from APIs...")
         cmd = ("swagger-codegen generate -i src/api/swagger.yaml"
                " -l python -o " + VALIDATION_BUILD_BASE_PATH
@@ -189,6 +193,21 @@ def validate(ctx):
         print("...with an error! 😡")
         print(e)
         sys.exit(-1)
+
+@task(build)
+def validate(ctx):
+    """ Generate source code for functional testing of the project """
+    print("\n🚨 Launching functional tests...\n")
+
+    web_server = Process(target=launch_webserver(ctx))
+    validation_testing = Process(target=launch_validation_testing(ctx))
+
+    web_server.start()
+    validation_testing.start()
+
+    validation_testing.join()
+    web_server.terminate()
+    web_server.join()
 
     print("...successfully! ✅\n")
     print("📒  You can find a report at " + VALIDATION_BUILD_BASE_PATH + "nosetests.xml")

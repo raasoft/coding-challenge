@@ -122,9 +122,6 @@ To launch only the validation test suite, go to the main folder of the project a
 invoke validate
 ```
 
-Please note that this command is expecting the server to be already running.
-You can open a terminal and launch it by reading [this section](#running-the-web-app).
-
 # Project Overview
 
 The project is build by two fundamental parts:
