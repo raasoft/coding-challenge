@@ -138,7 +138,9 @@ def unittest(ctx):
         print(e)
         sys.exit(-1)
 
-    print("\n...successfully! ✅")
+    print("\n...successfully! ✅\n")
+    print("📒  You can find a report at " + BUILD_BASE_PATH + "nosetests.xml")
+
 
 @task(splash, generate, unittest)
 def build(ctx):
@@ -188,7 +190,8 @@ def validate(ctx):
         print(e)
         sys.exit(-1)
 
-    print("...successfully! ✅")
+    print("...successfully! ✅\n")
+    print("📒  You can find a report at " + VALIDATION_BUILD_BASE_PATH + "nosetests.xml")
 
 @task(build)
 def release(ctx):
