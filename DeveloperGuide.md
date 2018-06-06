@@ -130,6 +130,17 @@ The project is build by two fundamental parts:
 
 All the boilerplate code is NOT versioned (you won't find it in a newly cloned repo) and generated only when a new build [is issued](#Building-the-web-app), inside the `build` folder.
 
+## Build manager
+
+The build manager used in this project is `pyinvoke`.
+We choose this because it is clean and simple.
+
+To have a list of all the possible build targets, issue:
+
+```bash
+invoke --list
+```
+
 ## Folder Structure
 
 #### src folder

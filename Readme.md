@@ -43,6 +43,8 @@ The application will start on [http://localhost:8080/](http://localhost:8080/).
 
 If you open your browser and navigate to [http://localhost:8080/v1/ui/](http://localhost:8080/v1/ui/) you can interact with it with a custom ui app to test the web app manually.
 
+If you want to execute validation tests, you need to setup a development environment where to launch validation tests. Please read [this section](DeveloperGuide.md#validation-testing) to launch validation tests.
+
 ### Running the web app in Docker
 
 If you use Docker, you can run the web app using docker by issuing:
