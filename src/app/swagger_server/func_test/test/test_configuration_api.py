@@ -22,6 +22,8 @@ from swagger_client.rest import ApiException
 import time
 
 
+SAMPLE_CFG = swagger_client.NewConfiguration(name="GoogleSettings", value={"list" : 3})
+
 # Required by specifications
 API_MAX_ALLOWED_RESPONSE_TIME = 0.150 # ms
 
@@ -41,7 +43,7 @@ class TestConfigurationApi(unittest.TestCase):
         """         
         # create an instance of the API class
         api_instance = swagger_client.ConfigurationApi(swagger_client.ApiClient())
-        cfg = swagger_client.NewConfiguration(name="GoogleSettings", value={"list" : 3}) # NewConfiguration | Configuration object to be added. Duplicates are allowed.
+        cfg = SAMPLE_CFG
 
         start = time.clock()
         api_response = api_instance.add_configuration(cfg)
@@ -54,28 +56,91 @@ class TestConfigurationApi(unittest.TestCase):
 
         Deletes a Configuration  # noqa: E501
         """
-        pass
+        # create an instance of the API class
+        api_instance = swagger_client.ConfigurationApi(swagger_client.ApiClient())
+        cfg = SAMPLE_CFG
+
+        start = time.clock()
+        api_response = api_instance.add_configuration(cfg)
+        request_time = time.clock() - start
+
+        self.assertLessEqual(request_time, API_MAX_ALLOWED_RESPONSE_TIME, "Request completed in {}ms".format(request_time))
+
+        start = time.clock()
+        api_instance.delete_configuration(api_response.id)
+        request_time = time.clock() - start
+
+        self.assertLessEqual(request_time, API_MAX_ALLOWED_RESPONSE_TIME, "Request completed in {}ms".format(request_time))
+        
 
     def test_find_configuration_by_name(self):
         """Test case for find_configuration_by_name
 
         Finds configuration by name  # noqa: E501
         """
-        pass
+        # create an instance of the API class
+        api_instance = swagger_client.ConfigurationApi(swagger_client.ApiClient())
+        cfg = SAMPLE_CFG
+
+        start = time.clock()
+        api_response = api_instance.add_configuration(cfg)
+        request_time = time.clock() - start
+
+        self.assertLessEqual(request_time, API_MAX_ALLOWED_RESPONSE_TIME, "Request completed in {}ms".format(request_time))
+
+        start = time.clock()
+        api_instance.find_configuration_by_name(api_response.name)
+        request_time = time.clock() - start
+
+        self.assertLessEqual(request_time, API_MAX_ALLOWED_RESPONSE_TIME, "Request completed in {}ms".format(request_time))
+        
 
     def test_get_configuration_by_id(self):
         """Test case for get_configuration_by_id
 
         Finds configuration by ID  # noqa: E501
         """
-        pass
+        # create an instance of the API class
+        api_instance = swagger_client.ConfigurationApi(swagger_client.ApiClient())
+        cfg = SAMPLE_CFG
+
+        start = time.clock()
+        api_response = api_instance.add_configuration(cfg)
+        request_time = time.clock() - start
+
+        self.assertLessEqual(request_time, API_MAX_ALLOWED_RESPONSE_TIME, "Request completed in {}ms".format(request_time))
+
+        start = time.clock()
+        api_instance.get_configuration_by_id(api_response.id)
+        request_time = time.clock() - start
+
+        self.assertLessEqual(request_time, API_MAX_ALLOWED_RESPONSE_TIME, "Request completed in {}ms".format(request_time))
 
     def test_update_configuration(self):
         """Test case for update_configuration
 
         Updates an existing configuration  # noqa: E501
         """
-        pass
+                # create an instance of the API class
+        api_instance = swagger_client.ConfigurationApi(swagger_client.ApiClient())
+        cfg = SAMPLE_CFG
+
+        start = time.clock()
+        api_response = api_instance.add_configuration(cfg)
+        request_time = time.clock() - start
+
+        self.assertLessEqual(request_time, API_MAX_ALLOWED_RESPONSE_TIME, "Request completed in {}ms".format(request_time))
+
+        updated_configuration = api_response
+        updated_configuration.name = "UpdatedName"
+        updated_configuration.value = { "answer" : 42 }
+
+        start = time.clock()
+        api_instance.update_configuration(updated_configuration)
+        request_time = time.clock() - start
+
+        self.assertLessEqual(request_time, API_MAX_ALLOWED_RESPONSE_TIME, "Request completed in {}ms".format(request_time))
+
 
 
 if __name__ == '__main__':

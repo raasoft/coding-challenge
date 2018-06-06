@@ -36,6 +36,7 @@ SRC_FILES = ["requirements.txt",
             ]
 
 FUNC_TEST_FILES = ["main.py",
+                   "tox.ini",
                    "test/test_configuration_api.py",
 
                   ]
