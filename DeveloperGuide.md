@@ -98,7 +98,7 @@ to kickstart you web app.
 
 Here you will find how to launch unit, integration and validation testing.
 
-To know how to edit existing tests, please refer to [this section](#Folder-Structure) 
+To know how to edit existing tests, please refer to [this section](#folder-structure) 
 and search for the files related to testing.
 
 ### Unit Testing
