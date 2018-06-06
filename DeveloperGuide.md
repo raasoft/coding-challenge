@@ -164,12 +164,12 @@ Here we’ll go through the main ones.
 
 This is the OpenAPI specification. From this file, **all the boilerplate code** is generated.
 
-##### <kbd>app/swagger_server/controllers/configuration_controller.py</kbd>
+##### <kbd>app/swagger_server/controllers/configuration_controller.py</kbd>  file
 
 This file contains the business logic of the whole project.
 If you want to edit a particular API behaviour, **this is the main file to edit**.
 
-##### <kbd>app/swagger_server/test/test_configuration_controller.py</kbd>
+##### <kbd>app/swagger_server/test/test_configuration_controller.py</kbd> file
 
 This file contains the unit and integration test for the whole project.
 If you want to add/edit/delete a unit test, this is the main file to edit.
@@ -182,7 +182,7 @@ method must start with the prefix `test_`.
 To create a new class, just copy an existing class file and rename it (maintaining it 
 in the same folder), both class name and file name.
 
-##### <kbd>app/swagger_server/func_test/test/test_configuration_api.py</kbd>
+##### <kbd>app/swagger_server/func_test/test/test_configuration_api.py</kbd> file
 
 This file contains the validation tests for the whole project (e.g. a particular API needs
 to answer in no more than 200 ms).
@@ -193,7 +193,6 @@ method must start with the prefix `test_`.
 
 To create a new class, just copy an existing class file and rename it (maintaining it 
 in the same folder), both class name and file name.
-
 
 ## Linting
 
