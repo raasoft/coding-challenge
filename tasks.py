@@ -9,7 +9,7 @@ SRC_BASE_PATH = "src/app/"
 BUILD_BASE_PATH = "build/app/"
 RELEASE_FOLDER = "release"
 
-VALIDATION_BUILD_BASE_PATH = "build/funcTests/swagger_client/"
+VALIDATION_BUILD_BASE_PATH = "build/validate/swagger_client/"
 VALIDATION_SRC_BASE_PATH = "src/app/swagger_server/func_test/"
 
 ARCHIVE_FILENAME = "configuration_manager"
@@ -103,31 +103,12 @@ def generate(ctx):
                 if excp.errno != 2:
                     raise excp
 
-            shutil.copy(SRC_BASE_PATH+src_file,BUILD_BASE_PATH+src_file)
+            shutil.copy(SRC_BASE_PATH + src_file,
+                        BUILD_BASE_PATH + src_file)
 
-        print("Generating functional testing from APIs...")
-        cmd = ("swagger-codegen generate -i src/api/swagger.yaml"
-               " -l python -o " + VALIDATION_BUILD_BASE_PATH
-              )
-
-        result = ctx.run(cmd, hide=True, warn=True)
-        if not result.ok:
-            raise Exception("Cannot run code generation from API")
-
-        print("Updating functional testing files with updated business logic...")
-        for f in FUNC_TEST_FILES:
-            try:
-                os.remove(VALIDATION_BUILD_BASE_PATH + f)
-            except OSError as e:
-                if e.errno != 2:
-                    raise e
-
-            shutil.copy(VALIDATION_SRC_BASE_PATH + f,
-                        VALIDATION_BUILD_BASE_PATH + f)
-
-    except Exception as e:
+    except Exception as excp:
         print("...with an error! 😡")
-        print(e)
+        print(excp)
         sys.exit(-1)
 
     print("...successfully! ✅")
@@ -166,12 +147,33 @@ def build(ctx):
     print("Run `./run_server.sh` to launch the web app")
 
 
-@task(build)
+@task(splash)
 def validate(ctx):
     """ Generate source code for functional testing of the project """
     print("\n🚨 Launching functional tests...\n")
 
     try:
+
+        print("Generating functional testing from APIs...")
+        cmd = ("swagger-codegen generate -i src/api/swagger.yaml"
+               " -l python -o " + VALIDATION_BUILD_BASE_PATH
+              )
+
+        result = ctx.run(cmd, hide=True, warn=True)
+        if not result.ok:
+            raise Exception("Cannot run code generation from API")
+
+        print("Updating functional testing files "
+              "with updated business logic...")
+        for f in FUNC_TEST_FILES:
+            try:
+                os.remove(VALIDATION_BUILD_BASE_PATH + f)
+            except OSError as e:
+                if e.errno != 2:
+                    raise e
+
+            shutil.copy(VALIDATION_SRC_BASE_PATH + f,
+                        VALIDATION_BUILD_BASE_PATH + f)
 
         os.chdir(VALIDATION_BUILD_BASE_PATH)
         cmd = 'tox -e py36'
@@ -192,7 +194,8 @@ def validate(ctx):
 def release(ctx):
     """ Creates a release creating an archive containing the whole app """
 
-    print("\n📦 Creating compressed file archive in `" + RELEASE_FOLDER + "` folder...")
+    print("\n📦 Creating compressed file archive in `" +
+          RELEASE_FOLDER + "` folder...")
 
     try:
         result = shutil.rmtree(RELEASE_FOLDER, ignore_errors=True)
@@ -211,7 +214,7 @@ def release(ctx):
         print("...with an error! 😡")
         print(e)
         sys.exit(-1)
-    
+
     print("...successfully! ✅")
     print("\n🎉🎉🎉 Coding Challenge app " + ARCHIVE_FILENAME + 
           " created with success!\n")

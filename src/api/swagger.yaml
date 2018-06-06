@@ -97,15 +97,13 @@ paths:
           type: string
       responses:
         '200':
-          description: successful operation
+          description: Successful operation. Returns empty list if none is found.
           schema:
             type: array
             items:
               $ref: '#/definitions/Configuration'
         '400':
           description: Bad Request. Invalid name supplied
-        '404':
-          description: No configuration found with that name
   '/configuration/{id}':
     get:
       tags:

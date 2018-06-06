@@ -67,6 +67,21 @@ def delete_configuration(id):  # noqa: E501
 
         return resp
 
+    except ValueError as e:
+        
+        text = '{ \
+        "detail": "The id ' + str(id) + ' is not a valid id returned by this app", \
+        "status": 400, \
+        "title": "Bad Request", \
+        "type": "about:blank" }' 
+
+        resp = make_response(text, 400)
+        resp.headers['Access-Control-Allow-Origin'] = '*'
+        resp.headers['content-type'] = 'application/problem+json'
+
+        return resp
+
+    # If we arrived here, something bad happened: return internal server error
     abort(500)
 
 
@@ -132,6 +147,7 @@ def get_configuration_by_id(id):  # noqa: E501
 
         return resp
 
+    # If we arrived here, something bad happened: return internal server error
     abort(500)
 
 def update_configuration(configuration):  # noqa: E501
@@ -172,4 +188,5 @@ def update_configuration(configuration):  # noqa: E501
 
             return resp
 
+        # If we arrived here, something bad happened: return internal server error
         abort(500)

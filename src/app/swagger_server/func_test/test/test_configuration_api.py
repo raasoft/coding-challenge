@@ -3,7 +3,8 @@
 """
     Configuration Manager
 
-    A simple HTTP API for managing the configuration values of a system.  # noqa: E501
+    A simple HTTP API for managing the
+    configuration values of a system.  # noqa: E501
 
     OpenAPI spec version: 1.0.1
     Contact: riccardo.ancona@gmail.com
@@ -14,24 +15,34 @@
 from __future__ import absolute_import
 
 import unittest
+import time
+import uuid
 
 import swagger_client
 from swagger_client.api.configuration_api import ConfigurationApi  # noqa: E501
 from swagger_client.rest import ApiException
 
-import time
 
 
-SAMPLE_CFG = swagger_client.NewConfiguration(name="GoogleSettings", value={"list" : 3})
+SAMPLE_CFG = swagger_client.NewConfiguration(
+    name="GoogleSettings",
+    value={"list" : 3})
+
+SAMPLE_UNIQUE_CFG = swagger_client.NewConfiguration(
+    name=str(uuid.uuid4()),
+    value={"list" : 3})
+
 
 # Required by specifications
 API_MAX_ALLOWED_RESPONSE_TIME = 0.150 # ms
+API_LOAD_TEST_MIN_RESPONSE_TIME_REQ_NO = 100 # requests
+API_LOAD_TEST_MIN_RESPONSE_TIME = 1000 # ms
 
 class TestConfigurationApi(unittest.TestCase):
     """ConfigurationApi unit test stubs"""
 
     def setUp(self):
-        self.api = swagger_client.api.configuration_api.ConfigurationApi()  # noqa: E501
+        self.api = swagger_client.api.configuration_api.ConfigurationApi()
 
     def tearDown(self):
         pass
@@ -39,108 +50,461 @@ class TestConfigurationApi(unittest.TestCase):
     def test_add_configuration(self):
         """Test case for add_configuration
 
-        Adds a new configuration  # noqa: E501
-        """         
+        Adds a new configuration and checks that response time is acceptable
+        """
         # create an instance of the API class
         api_instance = swagger_client.ConfigurationApi(swagger_client.ApiClient())
         cfg = SAMPLE_CFG
 
+        # Start monitoring response time
         start = time.clock()
-        api_response = api_instance.add_configuration(cfg)
+        # Add a new test configuration
+        api_instance.add_configuration(cfg)
         request_time = time.clock() - start
+        # End monitoring response time
 
-        self.assertLessEqual(request_time, API_MAX_ALLOWED_RESPONSE_TIME, "Request completed in {}ms".format(request_time))
+        self.assertLessEqual(request_time, 
+                             API_MAX_ALLOWED_RESPONSE_TIME, 
+                             "Request completed in {}ms".format(request_time))
+
+    def test_add_not_valid_configuration(self):
+        """Test case for add_not_valid_configuration
+
+        Adds a new not valid configuration and 
+        checks that response time is acceptable
+        and that error code is returned
+        """
+        # create an instance of the API class
+        api_instance = swagger_client.ConfigurationApi(swagger_client.ApiClient())
+        cfg = swagger_client.NewConfiguration(
+            name="GoogleSettings",
+            value=4)
+
+        # Start monitoring response time
+        start = time.clock()
+        # Add a new test configuration
+        try: 
+            api_instance.add_configuration(cfg)
+        except swagger_client.rest.ApiException as excp:
+            if (excp.status != 400):
+                raise excp
+            else:
+                request_time = time.clock() - start
+                # End monitoring response time
+
+                self.assertLessEqual(request_time, 
+                                    API_MAX_ALLOWED_RESPONSE_TIME, 
+                                    "Request completed in {}ms".format(request_time))
+                # Check if the error returned is the one expected
+                self.assertEqual(excp.status, 400)
+                return
+        
+        raise Exception("Configuration should not be added")
 
     def test_delete_configuration(self):
         """Test case for delete_configuration
 
-        Deletes a Configuration  # noqa: E501
+        Deletes a Configuration and checks that response time is acceptable
         """
         # create an instance of the API class
         api_instance = swagger_client.ConfigurationApi(swagger_client.ApiClient())
         cfg = SAMPLE_CFG
 
+        # Start monitoring response time
         start = time.clock()
+
+        # Add a new test configuration (to be deleted later)
         api_response = api_instance.add_configuration(cfg)
+
+        # End monitoring response time
         request_time = time.clock() - start
 
-        self.assertLessEqual(request_time, API_MAX_ALLOWED_RESPONSE_TIME, "Request completed in {}ms".format(request_time))
+        self.assertLessEqual(request_time,
+                             API_MAX_ALLOWED_RESPONSE_TIME,
+                             "Request completed in {}ms".format(request_time))
 
+        # Start monitoring response time
         start = time.clock()
+
+        # DELETE THE ADDED CONFIGURATION (main purpose of the test)
         api_instance.delete_configuration(api_response.id)
+
+        # End monitoring response time
         request_time = time.clock() - start
 
-        self.assertLessEqual(request_time, API_MAX_ALLOWED_RESPONSE_TIME, "Request completed in {}ms".format(request_time))
-        
+        self.assertLessEqual(request_time,
+                             API_MAX_ALLOWED_RESPONSE_TIME,
+                             "Request completed in {}ms".format(request_time))
 
-    def test_find_configuration_by_name(self):
-        """Test case for find_configuration_by_name
+    def test_delete_not_valid_configuration(self):
+        """Test case for delete_not_valid_configuration
 
-        Finds configuration by name  # noqa: E501
+        Deletes a Configuration and checks that response time is acceptable
         """
         # create an instance of the API class
         api_instance = swagger_client.ConfigurationApi(swagger_client.ApiClient())
         cfg = SAMPLE_CFG
 
+        # Start monitoring response time
         start = time.clock()
-        api_response = api_instance.add_configuration(cfg)
-        request_time = time.clock() - start
 
-        self.assertLessEqual(request_time, API_MAX_ALLOWED_RESPONSE_TIME, "Request completed in {}ms".format(request_time))
+        # DELETE A NOT VALID CONFIGURATION (main purpose of the test)
+        try: 
+            api_instance.delete_configuration("666_invalid_id_666")
+        except swagger_client.rest.ApiException as excp:
+            if (excp.status != 400):
+                raise excp
+                exit(-1)
+            else:
+                # End monitoring response time
+                request_time = time.clock() - start
 
-        start = time.clock()
-        api_instance.find_configuration_by_name(api_response.name)
-        request_time = time.clock() - start
-
-        self.assertLessEqual(request_time, API_MAX_ALLOWED_RESPONSE_TIME, "Request completed in {}ms".format(request_time))
+                self.assertLessEqual(
+                    request_time,
+                    API_MAX_ALLOWED_RESPONSE_TIME,
+                    "Request completed in {}ms".format(request_time))
+                
+                # Check if the error returned is the one expected
+                self.assertEqual(excp.status, 400)
+                return
         
+        raise Exception("Configuration should not be found")
+
+    def test_delete_not_existing_configuration(self):
+        """Test case for delete_not_existing_configuration
+
+        Deletes a Configuration and checks that response time is acceptable
+        """
+        # create an instance of the API class
+        api_instance = swagger_client.ConfigurationApi(swagger_client.ApiClient())
+        cfg = SAMPLE_CFG
+
+        # Start monitoring response time
+        start = time.clock()
+
+        # DELETE A NOT EXISTING CONFIGURATION (main purpose of the test)
+        try: 
+            api_instance.delete_configuration(str(uuid.uuid4())) # uuid has just been generated
+        except swagger_client.rest.ApiException as excp:
+            if (excp.status != 404):
+                raise excp
+                exit(-1)
+            else:
+                # End monitoring response time
+                request_time = time.clock() - start
+
+                self.assertLessEqual(
+                    request_time,
+                    API_MAX_ALLOWED_RESPONSE_TIME,
+                    "Request completed in {}ms".format(request_time))
+                
+                # Check if the error returned is the one expected
+                self.assertEqual(excp.status, 404)
+                return
+        
+        raise Exception("Configuration should not be found")
+
+    def test_load_performance_spec_by_find_configuration_by_name(self):
+        """Test case for max load performance and find_configuration_by_name
+
+        Adds API_MIN_RESPONSE_TIME_REQ_NO configuration by name 
+        and checks that response time is acceptable
+        (within (API_MIN_RESPONSE_TIME_)
+        then search for configurations by name
+
+        """
+        # create an instance of the API class
+        api_instance = swagger_client.ConfigurationApi(swagger_client.ApiClient())
+        cfg = SAMPLE_UNIQUE_CFG
+
+        api_response = {}
+        values_to_add = 400
+    
+        # Start monitoring response time
+        time_elapsed = 0.0
+
+        # Add a new test configurations (to be searched later)
+        for index in range(values_to_add):     
+            start = time.clock()       
+            api_response = api_instance.add_configuration(cfg)
+            time_elapsed += time.clock() - start
+
+        # End monitoring response time
+        self.assertLessEqual(
+            time_elapsed,
+            API_LOAD_TEST_MIN_RESPONSE_TIME/API_LOAD_TEST_MIN_RESPONSE_TIME_REQ_NO,
+            "Request completed in {}ms".format(time_elapsed))
+
+        print("")
+        print("### STRESS TEST RESULTS")
+        print("")
+        print(str(values_to_add) + " simple requests performed in: " + str(time_elapsed))
+        print("Required min. load: " + str(API_LOAD_TEST_MIN_RESPONSE_TIME_REQ_NO) + " req/sec")
+        print("Actual max. load: " + str(values_to_add/time_elapsed) + " req/sec")
+
+        # Start monitoring response time
+        start = time.clock()
+
+        # SEARCH THE ADDED CONFIGURATION BY NAME (main purpose of the test)
+        api_response = api_instance.find_configuration_by_name(api_response.name)
+                        
+        # End monitoring response time
+        request_time = time.clock() - start
+
+        self.assertLessEqual(request_time,
+            API_MAX_ALLOWED_RESPONSE_TIME,
+            "Request completed in {}ms".format(request_time))
+
+        self.assertEqual(
+            len(api_response),
+            values_to_add,
+            ("Configuration added " + str(values_to_add) +
+             " / configurations found: " + str(len(api_response)))
+        )
+
 
     def test_get_configuration_by_id(self):
         """Test case for get_configuration_by_id
 
-        Finds configuration by ID  # noqa: E501
+        Finds configuration by ID and checks that response time is acceptable # noqa: E501
         """
         # create an instance of the API class
         api_instance = swagger_client.ConfigurationApi(swagger_client.ApiClient())
         cfg = SAMPLE_CFG
 
+        # Start monitoring response time
         start = time.clock()
+        # Add a new test configuration (to be searched later)
         api_response = api_instance.add_configuration(cfg)
+        # End monitoring response time
         request_time = time.clock() - start
 
-        self.assertLessEqual(request_time, API_MAX_ALLOWED_RESPONSE_TIME, "Request completed in {}ms".format(request_time))
+        self.assertLessEqual(request_time,
+                             API_MAX_ALLOWED_RESPONSE_TIME,
+                             "Request completed in {}ms".format(request_time))
 
+        # Start monitoring response time
         start = time.clock()
+        # SEARCHES THE CONFIGURATION BY ID (main purpose of the test)
         api_instance.get_configuration_by_id(api_response.id)
+        # End monitoring response time
         request_time = time.clock() - start
 
-        self.assertLessEqual(request_time, API_MAX_ALLOWED_RESPONSE_TIME, "Request completed in {}ms".format(request_time))
+        self.assertLessEqual(request_time,
+                             API_MAX_ALLOWED_RESPONSE_TIME,
+                             "Request completed in {}ms".format(request_time))
+
+    def test_get_configuration_by_invalid_id(self):
+        """Test case for get_configuration_by_invalid_id
+
+        Finds configuration by an invalid ID and 
+        checks that an error message is returned and
+        that response time is acceptable # noqa: E501
+        """
+        # create an instance of the API class
+        api_instance = swagger_client.ConfigurationApi(swagger_client.ApiClient())
+
+        # Start monitoring response time
+        start = time.clock()
+        try: 
+            # SEARCHES THE CONFIGURATION BY ID (main purpose of the test)
+            api_instance.get_configuration_by_id("666_invalid_id")
+        except swagger_client.rest.ApiException as excp:
+            if (excp.status != 400):
+                raise excp
+                exit(-1)
+            else:
+                # End monitoring response time
+                request_time = time.clock() - start
+
+                self.assertLessEqual(
+                    request_time,
+                    API_MAX_ALLOWED_RESPONSE_TIME,
+                    "Request completed in {}ms".format(request_time))
+                
+                # Check if the error returned is the one expected
+                self.assertEqual(excp.status, 400)
+                return
+        
+        raise Exception("Configuration should not be found")
+
+    def test_get_configuration_by_not_existing_id(self):
+        """Test case for get_configuration_by_not_existing_id
+
+        Finds configuration by ID and checks that response time is acceptable # noqa: E501
+        """
+        # create an instance of the API class
+        api_instance = swagger_client.ConfigurationApi(swagger_client.ApiClient())
+
+        # Start monitoring response time
+        start = time.clock()
+        try: 
+            # SEARCHES THE CONFIGURATION BY ID (main purpose of the test)
+            api_instance.get_configuration_by_id(str(uuid.uuid4()))
+        except swagger_client.rest.ApiException as excp:
+            if (excp.status != 404):
+                raise excp
+                exit(-1)
+            else:
+                # End monitoring response time
+                request_time = time.clock() - start
+
+                self.assertLessEqual(
+                    request_time,
+                    API_MAX_ALLOWED_RESPONSE_TIME,
+                    "Request completed in {}ms".format(request_time))
+                
+                # Check if the error returned is the one expected
+                self.assertEqual(excp.status, 404)
+                return
+        
+        raise Exception("Configuration should not be found")
 
     def test_update_configuration(self):
         """Test case for update_configuration
 
-        Updates an existing configuration  # noqa: E501
+        Updates an existing configuration and checks that response time is acceptable # noqa: E501
         """
-                # create an instance of the API class
+        # create an instance of the API class
         api_instance = swagger_client.ConfigurationApi(swagger_client.ApiClient())
         cfg = SAMPLE_CFG
 
+        # Start monitoring response time
         start = time.clock()
+
+        # Add a new test configuration (to be modified later)
         api_response = api_instance.add_configuration(cfg)
+        # End monitoring response time
         request_time = time.clock() - start
 
-        self.assertLessEqual(request_time, API_MAX_ALLOWED_RESPONSE_TIME, "Request completed in {}ms".format(request_time))
+        self.assertLessEqual(request_time,
+                             API_MAX_ALLOWED_RESPONSE_TIME,
+                             "Request completed in {}ms".format(request_time))
 
+        # Modifies some values of existing configuration
+        # to create an updated configuration
         updated_configuration = api_response
         updated_configuration.name = "UpdatedName"
-        updated_configuration.value = { "answer" : 42 }
+        updated_configuration.value = {"answer": 42}
 
+        # Start monitoring response time
         start = time.clock()
+        # UPDATES THE ADDED CONFIGURATION (main purpose of the test)
         api_instance.update_configuration(updated_configuration)
+        # End monitoring response time
         request_time = time.clock() - start
 
-        self.assertLessEqual(request_time, API_MAX_ALLOWED_RESPONSE_TIME, "Request completed in {}ms".format(request_time))
+        self.assertLessEqual(request_time,
+                             API_MAX_ALLOWED_RESPONSE_TIME,
+                             "Request completed in {}ms".format(request_time))
 
+    def test_update_invalid_configuration(self):
+        """Test case for update_invalid_configuration
+
+        Updates an existing configuration with invalid values 
+        and checks that error code are returned and
+        that response time is acceptable 
+        """
+        # create an instance of the API class
+        api_instance = swagger_client.ConfigurationApi(swagger_client.ApiClient())
+        cfg = SAMPLE_CFG
+
+        # Start monitoring response time
+        start = time.clock()
+
+        # Add a new test configuration (to be modified later)
+        api_response = api_instance.add_configuration(cfg)
+        # End monitoring response time
+        request_time = time.clock() - start
+
+        self.assertLessEqual(request_time,
+                             API_MAX_ALLOWED_RESPONSE_TIME,
+                             "Request completed in {}ms".format(request_time))
+
+        # Modifies some values of existing configuration
+        # to create an updated invalid configuration
+        updated_configuration = api_response
+        updated_configuration.name = {"invalidName": 42}
+        updated_configuration.value = {"answer": 42}
+
+        # Start monitoring response time
+        start = time.clock()
+
+        try:          
+            # UPDATES THE ADDED CONFIGURATION (main purpose of the test)
+            api_instance.update_configuration(updated_configuration)
+        except swagger_client.rest.ApiException as excp:
+            if (excp.status != 400):
+                raise excp
+                exit(-1)
+            else:
+                # End monitoring response time
+                request_time = time.clock() - start
+
+                self.assertLessEqual(
+                    request_time,
+                    API_MAX_ALLOWED_RESPONSE_TIME,
+                    "Request completed in {}ms".format(request_time))
+                
+                # Check if the error returned is the one expected
+                self.assertEqual(excp.status, 400)
+                return
+        
+        raise Exception("Configuration should not be updated")
+
+    def test_update_not_existing_configuration(self):
+        """Test case for update_not_existing_configuration
+
+        Updates an existing configuration with not existing
+        uuid and checks that error code are returned and
+        that response time is acceptable 
+        """
+        # create an instance of the API class
+        api_instance = swagger_client.ConfigurationApi(swagger_client.ApiClient())
+        cfg = SAMPLE_CFG
+
+        # Start monitoring response time
+        start = time.clock()
+
+        # Add a new test configuration (to be modified later)
+        api_response = api_instance.add_configuration(cfg)
+        # End monitoring response time
+        request_time = time.clock() - start
+
+        self.assertLessEqual(request_time,
+                             API_MAX_ALLOWED_RESPONSE_TIME,
+                             "Request completed in {}ms".format(request_time))
+
+        # Modifies some values of existing configuration
+        # to create an updated invalid configuration
+        updated_configuration = api_response
+        updated_configuration.id = str(uuid.uuid4())
+        updated_configuration.value = {"answer": 42}
+
+        # Start monitoring response time
+        start = time.clock()
+
+        try:          
+            # UPDATES THE ADDED CONFIGURATION (main purpose of the test)
+            api_instance.update_configuration(updated_configuration)
+        except swagger_client.rest.ApiException as excp:
+            if (excp.status != 404):
+                raise excp
+                exit(-1)
+            else:
+                # End monitoring response time
+                request_time = time.clock() - start
+
+                self.assertLessEqual(
+                    request_time,
+                    API_MAX_ALLOWED_RESPONSE_TIME,
+                    "Request completed in {}ms".format(request_time))
+                
+                # Check if the error returned is the one expected
+                self.assertEqual(excp.status, 404)
+                return
+        
+        raise Exception("Configuration should not be updated")
 
 
 if __name__ == '__main__':

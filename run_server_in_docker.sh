@@ -1,6 +1,10 @@
 #!/bin/sh
+# This script creates and launched a dockerized web app
+# Must be launched from the main folder of the project
+#
+# You can pass this script the argument "--no-cache" to create a new server from scratch
 
-# You can pass this script the option "--no-cache" to create a new swagger server
+
 cd build/app
 
 # building the image

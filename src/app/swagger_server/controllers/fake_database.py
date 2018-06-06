@@ -1,5 +1,6 @@
 import base64
 import uuid
+
 class FakeDatabase:
     # Here will be the instance stored.
     __instance = None
@@ -36,7 +37,9 @@ class FakeDatabase:
         :return: The name of this NewConfiguration.
         :rtype: str
         """
-        del self._associativeArrayId[id]
+
+        if uuid.UUID(id).version == 4:
+            del self._associativeArrayId[id]
 
     def search(self, name):
         """Gets the name of this NewConfiguration.

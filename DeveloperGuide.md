@@ -7,7 +7,7 @@ This is the developer guide for a HTTP API for managing the configuration values
 
 * [TOC](#TOC)
     - [Getting started](#getting-started)
-        - [Building dependencies](#building-dependencies)
+        - [Installing dependencies](#installing-dependencies)
         - [Building the web app](#building-the-web-app)
         - [Running the web app](#running-the-web-app)
         - [Testing](#testing)
@@ -24,7 +24,7 @@ developing this app.
 
 For a broader overview about project structure, visit [this section](#project-overview).
 
-## Building Dependencies 
+## Installing Dependencies 
 
 To build the web app you need the following software packages:
 
@@ -66,7 +66,7 @@ It will create a directory called `build` inside the current folder structured l
     /docs
 
 And will execute unit testing.
-If everything run smoothly ood and no errors were reported, you are now ready to go and [launch the web app](#running-the-web-app).
+If everything run smoothly and no errors were reported, you are now ready to go and [launch the web app](#running-the-web-app).
 
 ## Running the web app
 
