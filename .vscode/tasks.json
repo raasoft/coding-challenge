@@ -7,16 +7,28 @@
             "label": "Functional Tests",
             "type": "shell",
             "command": "inv functionalTests"
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            }
         },
         {
             "label": "Build",
             "type": "shell",
             "command": "inv build"
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
         },
         {
             "label": "Deploy",
             "type": "shell",
-            "command": "inv deploy"
+            "command": "inv deploy",
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            }
         }
     ]
 }
