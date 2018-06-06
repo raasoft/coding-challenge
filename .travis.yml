@@ -9,11 +9,10 @@ install:
   - brew install --HEAD swagger-codegen
 # command to run tests
 
-before_script:
-  - python3 -m invoke unittest
-
 script:
+  - python3 -m invoke unittest
   - ./run_server.sh &
+  - sleep 10
   - python3 -m invoke validate
 
 after_script:
