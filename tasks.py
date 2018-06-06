@@ -154,7 +154,7 @@ def launch_webserver(ctx):
     """thread worker function"""
     print("\nLaunching web server in background...\n")
 
-    cmd = ("./run_server.sh")
+    cmd = ("./run_server.sh &")
     ctx.run(cmd, hide=True, warn=True)
     return
 
