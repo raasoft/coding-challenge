@@ -1,4 +1,6 @@
 from invoke import task
+from invoke import tasks
+from invoke import Executor
 import shutil
 import os
 import sys
@@ -13,6 +15,8 @@ zipFilename = "configuration_manager"
 
 SRC_FILES = ["requirements.txt", 
                "test-requirements.txt",
+               
+               "swagger_server/config.py",
 
                "swagger_server/__main__.py",
                "swagger_server/controllers/configuration_controller.py",
@@ -24,7 +28,9 @@ SRC_FILES = ["requirements.txt",
 
                "swagger_server/controllers/fake_database.py",
 
-               "tox.ini"
+               "tox.ini",
+
+               "Dockerfile"
 
               ]
 
@@ -157,7 +163,7 @@ def build(ctx):
 
 
 @task(build)
-def functionalTests(ctx):
+def validate(ctx):
     """ Generate source code for functional testing of the project """
     print("\n🚨 Launching functional tests...\n")
 
@@ -204,3 +210,27 @@ def deploy(ctx):
     
     print("...successfully! ✅")
     print("\n🎉🎉🎉 Coding Challenge app " + zipFilename + " created with success!\n")
+
+@task(splash)
+def run(ctx, rebuild=False, cfg="dev", docker=False):
+    """ Deploys and creates an archive containing the whole app """
+    print("\n🚚   Running Coding Challenge web app...")    
+    try:
+        if rebuild:
+            cmd = ('inv build')
+            result = ctx.run(cmd, hide=False, warn=True)
+
+        cmd = ('./run_server.sh ' + cfg)
+        if docker:
+             cmd = ('./run_server_in_docker.sh')
+
+        result = ctx.run(cmd, hide=False, warn=True)
+        if not result.ok:
+            raise Exception("Error during running the server!")
+
+    except Exception as e:
+        print("...with an error! 😡")
+        print(e)
+        sys.exit(-1)
+    
+    print("\n👋  Closing Coding Challenge app! Bye!")
