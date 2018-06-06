@@ -147,7 +147,7 @@ invoke --list
 
 ## Folder Structure
 
-#### src folder
+#### <kbd>src</kbd> folder
 
 A newly cloned repo comes with a directory called `src`.
 
@@ -160,16 +160,16 @@ files in this folder are substituted to the boilerplate ones to implement the fe
 Each relevant file is documented with some inline comments to get you started. 
 Here we’ll go through the main ones.
 
-```api/swagger.yaml```
+<kbd>api/swagger.yaml</kbd>
 
 This is the OpenAPI specification. From this file, **all the boilerplate code** is generated.
 
-```app/swagger_server/controllers/configuration_controller.py```
+<kbd>app/swagger_server/controllers/configuration_controller.py</kbd>
 
 This file contains the business logic of the whole project.
 If you want to edit a particular API behaviour, **this is the main file to edit**.
 
-```app/swagger_server/test/test_configuration_controller.py```
+<kbd>app/swagger_server/test/test_configuration_controller.py</kbd>
 
 This file contains the unit and integration test for the whole project.
 If you want to add/edit/delete a unit test, this is the main file to edit.
