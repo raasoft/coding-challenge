@@ -96,6 +96,11 @@ to kickstart you web app.
 
 ## Testing
 
+Here you will find how to launch unit, integration and validation testing.
+
+To know how to edit existing tests, please refer to [this section](#Folder-Structure) 
+and search for the files related to testing.
+
 ### Unit Testing
 
 To launch only the unit test suite, go to the main folder of the project and type:
@@ -171,13 +176,24 @@ If you want to add/edit/delete a unit test, this is the main file to edit.
 
 Inside this file, **dependency injection** was used to inject a fake database for the tests.
 
-The only requirement to add a test, is that the 
+The only requirement to add a test in an existing class, is that the test 
+method must start with the prefix `test_`.
+
+To create a new class, just copy an existing class file and rename it (maintaining it 
+in the same folder), both class name and file name.
 
 ```app/swagger_server/func_test/test/test_configuration_api.py```
 
 This file contains the validation tests for the whole project (e.g. a particular API needs
 to answer in no more than 200 ms).
 If you want to add/edit/delete a validation test, this is the main file to edit.
+
+The only requirement to add a test in an existing class, is that the test 
+method must start with the prefix `test_`.
+
+To create a new class, just copy an existing class file and rename it (maintaining it 
+in the same folder), both class name and file name.
+
 
 ## Linting
 
