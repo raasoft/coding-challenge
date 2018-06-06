@@ -43,6 +43,7 @@ deployFiles = ["build/app",
                "build/docs",
 
                "run_server.sh",
+               "run_server_in_docker.sh",
 
                "Readme.md",
                "DeveloperGuide.md"

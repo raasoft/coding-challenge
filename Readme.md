@@ -30,7 +30,7 @@ Follow [this section](#DeveloperGuide.md) to build it first, then continue readi
 
 To launch the web app, go to the main folder of the project and type:
 
-```
+```bash
 ./run_server.sh
 ```
 
@@ -39,11 +39,19 @@ Make sure that `./run_server.sh` has executable permission as well.
 The application will start in development mode on `localhost:8080`.
 If you open your browser and navigate to [http://localhost:8080/v1/ui/](http://localhost:8080/v1/ui/) you can interact with it with a custom ui app to test the web app manually.
 
+### Running the web app in Docker
+
+If you use Docker, you can run the web app using docker by issuing:
+
+```bash
+./run_server_in_docker.sh
+```
+
 ## Troubleshooting
 
 ### OSError: [Errno 48] Address already in use
 
-If this error is shown after the command `./run_server.sh` is issued, it means that there is already a service listening at the address and port used.
+If this error is shown after the web server has started, it means that there is already a service listening at the address and port used.
 
 At this stage, the address used by the web server is fixed and cannot be changed, so the only way to get rid of this is to shutdown other services using the same address and retry.
 
