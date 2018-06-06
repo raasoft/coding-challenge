@@ -11,11 +11,9 @@ install:
 script:
   - python3 -m invoke unittest
   - ./run_server.sh &
-
-after_success:
   - python3 -m invoke validate
 
 after_script:
+  - killall Python 
   - cd build/app/
   - codecov 
-  - killall Python
