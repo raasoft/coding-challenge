@@ -6,15 +6,25 @@ This is the developer guide for a HTTP API for managing the configuration values
 # TOC (Table of Content)
 
 * [TOC](#TOC)
-    - [Building dependencies](#building-dependencies)
-    - [Building the web app](#building-the-web-app)
-    - [Unit testing](#unit-testing)
-    - [Running the web app](#running-the-web-app)
-    - [Validation testing](#validation-testing)
-    - [Create an archive](#create-an-archive)
+    - [Getting started](#getting-started)
+        - [Building dependencies](#building-dependencies)
+        - [Building the web app](#building-the-web-app)
+        - [Running the web app](#running-the-web-app)
+        - [Testing](#testing)
+            - [Unit testing](#unit-testing)
+            - [Validation testing](#validation-testing)
+        - [Make a release](#make-a-release)
     - [Project Overview](#project-overview)
+        - [Folder Structure](#folder-structure)
 
-# Building Dependencies 
+# Getting Started
+
+In this section are presented the main operations that a developer would do while 
+developing this app.
+
+For a broader overview about project structure, visit [this section](#project-overview).
+
+## Building Dependencies 
 
 To build the web app you need the following software packages:
 
@@ -25,7 +35,7 @@ To build the web app you need the following software packages:
 
 Make sure each of those dependency has its path added to your `PATH` environment variable.
 
-## Installation of dependencies on OSX
+### Installation of dependencies on OSX
 
 On OSX you can use the `brew` utility to install everything.
 After you installed it (here there are some [instructions](https://brew.sh/)) you can type (from the main directory of this repository):
@@ -38,16 +48,16 @@ brew install maven
 brew install --HEAD swagger-codegen
 ```
 
-## Other platforms
+### Other platforms
 
 Other platforms are not supported yet.
 
-# Building the web app
+## Building the web app
 
 To build everything, if all the dependencies mentioned above are already satisfied, 
 go to the main folder of the project and type:
 
-```
+```bash
 invoke build
 ```
 
@@ -59,7 +69,35 @@ It will create a directory called `build` inside the current folder structured l
 And will execute unit testing.
 If everything run smoothly ood and no errors were reported, you are now ready to go and [launch the web app](#running-the-web-app).
 
-# Unit Testing
+## Running the web app
+
+As a developer, to launch the web app, you have two options:
+- Launch it in a user-fashion way 
+- Use the same semantic used for building the app (recommended for a developer)
+
+If you want to run it in a user-fashion way, please refer to [this section](Readme.md/#running-web-app).
+
+Otherwise, you just issue (from the main folder):
+
+```bash
+invoke run
+```
+
+If you are a developer you will find this way much more convenient.
+
+## Make a release
+
+To create a release that contains all the web server, go to the main folder of the project and type:
+```
+invoke release
+```
+
+A zip archive will be created inside the `release` folder with all you need
+to kickstart you web app.
+
+## Testing
+
+### Unit Testing
 
 To launch only the unit test suite, go to the main folder of the project and type:
 
@@ -72,21 +110,7 @@ The unit testing framework used in this project is `nose` with `tox`.
 
 If you need to modify tox settings, edit `src/app/tox.ini`.
 
-# Running the web app
-
-To launch the web app, please refer to [this section](Readme.md/#running-web-app).
-
-# Create an archive
-
-To create an archive that contains all the web server, go to the main folder of the project and type:
-```
-invoke deploy
-```
-
-A zip archive will be created inside the `deploy` folder with all you need
-to kickstart you web app.
-
-# Validation Testing
+### Validation Testing
 
 To launch only the validation test suite, go to the main folder of the project and type:
 

@@ -1,4 +1,4 @@
 build/
-deploy/
+release/
 .vscode/.ropeproject/config.py
 .vscode/.ropeproject/objectdb

@@ -5,49 +5,50 @@ import shutil
 import os
 import sys
 
-sourceBasePath = "src/app/"
-buildBasePath = "build/app/"
+SRC_BASE_PATH = "src/app/"
+BUILD_BASE_PATH = "build/app/"
+RELEASE_FOLDER = "release"
 
-funcTestsBuildBasePath = "build/funcTests/swagger_client/"
-funcTestsSrcBasePath = "src/app/swagger_server/func_test/"
+VALIDATION_BUILD_BASE_PATH = "build/funcTests/swagger_client/"
+VALIDATION_SRC_BASE_PATH = "src/app/swagger_server/func_test/"
 
-zipFilename = "configuration_manager"
+ARCHIVE_FILENAME = "configuration_manager"
 
-SRC_FILES = ["requirements.txt", 
-               "test-requirements.txt",
-               
-               "swagger_server/config.py",
+SRC_FILES = ["requirements.txt",
+             "test-requirements.txt",
 
-               "swagger_server/__main__.py",
-               "swagger_server/controllers/configuration_controller.py",
+             "swagger_server/config.py",
 
-               "swagger_server/test/__init__.py",
-               "swagger_server/test/test_configuration_controller.py",
+             "swagger_server/__main__.py",
+             "swagger_server/controllers/configuration_controller.py",
 
-               "swagger_server/controllers/fake_database.py",
+             "swagger_server/test/__init__.py",
+             "swagger_server/test/test_configuration_controller.py",
 
-               "swagger_server/controllers/fake_database.py",
+             "swagger_server/controllers/fake_database.py",
 
-               "tox.ini",
+             "swagger_server/controllers/fake_database.py",
 
-               "Dockerfile"
+             "tox.ini",
 
-              ]
+             "Dockerfile"
+
+            ]
 
 FUNC_TEST_FILES = ["main.py",
                    "test/test_configuration_api.py",
 
                   ]
 
-deployFiles = ["build/app", 
-               "build/docs",
+RELEASE_FILES = ["build/app",
+                 "build/docs",
 
-               "run_server.sh",
-               "run_server_in_docker.sh",
+                 "run_server.sh",
+                 "run_server_in_docker.sh",
 
-               "Readme.md",
-               "DeveloperGuide.md"
-              ]
+                 "Readme.md",
+                 "DeveloperGuide.md"
+                ]
 
 @task
 def splash(ctx):
@@ -60,12 +61,12 @@ def clean(ctx):
 
     print("\n🗑  Cleaning the build directory...")
     try:
-        result = shutil.rmtree("build", ignore_errors=True)
-    except Exception as e:
+        shutil.rmtree("build", ignore_errors=True)
+    except Exception as excp:
         print("...with an error! 😡")
-        print(e)
+        print(excp)
         sys.exit(-1)
-    
+
     print("...successfully! ✅")
 
 @task(clean)
@@ -77,36 +78,35 @@ def generate(ctx):
 
         print("Generating code from APIs...")
         cmd = ("swagger-codegen generate -i src/api/swagger.yaml"
-            " -l python-flask -o build/app"
-            )
+               " -l python-flask -o build/app"
+              )
 
         result = ctx.run(cmd, hide=True, warn=True)
         if not result.ok:
             raise Exception("Cannot run code generation from API")
 
-            
         print("Generating docs from APIs...")
         cmd = ("swagger-codegen generate -i src/api/swagger.yaml"
-            " -l html -o build/docs"
-            )
+               " -l html -o build/docs"
+              )
         result = ctx.run(cmd, hide=True, warn=True)
         if not result.ok:
             raise Exception("Cannot run docs generation from API")
 
         print("Updating web app files with updated business logic...")
-        for f in SRC_FILES:
+        for src_file in SRC_FILES:
             try:
-                os.remove(buildBasePath+f)
-            except OSError as e:
-                if e.errno != 2:
-                    raise e
+                os.remove(BUILD_BASE_PATH+src_file)
+            except OSError as excp:
+                if excp.errno != 2:
+                    raise excp
 
-            shutil.copy(sourceBasePath+f,buildBasePath+f)
+            shutil.copy(SRC_BASE_PATH+src_file,BUILD_BASE_PATH+src_file)
 
         print("Generating functional testing from APIs...")
         cmd = ("swagger-codegen generate -i src/api/swagger.yaml"
-            " -l python -o " + funcTestsBuildBasePath
-            )
+               " -l python -o " + VALIDATION_BUILD_BASE_PATH
+              )
 
         result = ctx.run(cmd, hide=True, warn=True)
         if not result.ok:
@@ -115,12 +115,13 @@ def generate(ctx):
         print("Updating functional testing files with updated business logic...")
         for f in FUNC_TEST_FILES:
             try:
-                os.remove(funcTestsBuildBasePath + f)
+                os.remove(VALIDATION_BUILD_BASE_PATH + f)
             except OSError as e:
                 if e.errno != 2:
                     raise e
 
-            shutil.copy(funcTestsSrcBasePath + f, funcTestsBuildBasePath + f)
+            shutil.copy(VALIDATION_SRC_BASE_PATH + f,
+                        VALIDATION_BUILD_BASE_PATH + f)
 
     except Exception as e:
         print("...with an error! 😡")
@@ -145,7 +146,7 @@ def unittest(ctx):
         cmd = 'tox -e py36'
         result = ctx.run(cmd, hide=False, warn=True)
         if not result.ok:
-           raise Exception("Error during runnig `tox` for unit testing")
+            raise Exception("Error during runnig `tox` for unit testing")
 
         os.chdir("../..")
 
@@ -170,7 +171,7 @@ def validate(ctx):
 
     try:
 
-        os.chdir(funcTestsBuildBasePath)
+        os.chdir(VALIDATION_BUILD_BASE_PATH)
         cmd = 'tox -e py36'
         result = ctx.run(cmd, hide=False, warn=True)
         if not result.ok:
@@ -186,20 +187,20 @@ def validate(ctx):
     print("...successfully! ✅")
 
 @task(build)
-def deploy(ctx):
-    """ Deploys and creates an archive containing the whole app """
+def release(ctx):
+    """ Creates a release creating an archive containing the whole app """
 
-    print("\n📦 Creating zip file package in `deploy` folder...")
+    print("\n📦 Creating compressed file archive in `" + RELEASE_FOLDER + "` folder...")
 
     try:
-        result = shutil.rmtree("deploy", ignore_errors=True)
+        result = shutil.rmtree(RELEASE_FOLDER, ignore_errors=True)
 
-        os.makedirs("deploy")
+        os.makedirs(RELEASE_FOLDER)
 
-        filesToZip = ' '.join(deployFiles)
+        files_to_compress = ' '.join(RELEASE_FILES)
 
-        cmd = ('zip -q -r deploy/'+ zipFilename +'.zip '
-               ""+filesToZip)
+        cmd = ('zip -q -r '+RELEASE_FOLDER+'/'+ ARCHIVE_FILENAME +'.zip '
+               "" + files_to_compress)
         result = ctx.run(cmd, hide=False, warn=True)
         if not result.ok:
             raise Exception("Cannot create zip file")
@@ -210,7 +211,8 @@ def deploy(ctx):
         sys.exit(-1)
     
     print("...successfully! ✅")
-    print("\n🎉🎉🎉 Coding Challenge app " + zipFilename + " created with success!\n")
+    print("\n🎉🎉🎉 Coding Challenge app " + ARCHIVE_FILENAME + 
+          " created with success!\n")
 
 @task(splash)
 def run(ctx, rebuild=False, cfg="dev", docker=False):
@@ -223,7 +225,7 @@ def run(ctx, rebuild=False, cfg="dev", docker=False):
 
         cmd = ('./run_server.sh ' + cfg)
         if docker:
-             cmd = ('./run_server_in_docker.sh')
+            cmd = ('./run_server_in_docker.sh')
 
         result = ctx.run(cmd, hide=False, warn=True)
         if not result.ok:

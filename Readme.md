@@ -14,6 +14,7 @@ HTTP API for managing the configuration values of a system.
         - [Other Platforms](#other-platforms)
     - [Building the web app](#building-the-web-app)
     - [Running the web app](#running-the-web-app)
+        - [Testing the web app endpoints](#Testing-the-web-app-endpoints)
     - [Troubleshooting](#troubleshooting)
     - [Developer Guide](#developer-guide)
 
@@ -25,10 +26,10 @@ To launch the web app you need to install on your local machine:
 
 ## Running the web app
 
-If you don't already have a release of the web app, you need to build it first.
-Follow [this section](#DeveloperGuide.md) to build it first, then continue reading here.
+If you don't already have a release of the web app, **you need to build it first**.
+Follow [this section](#DeveloperGuide.md) to build it, then continue reading here.
 
-To launch the web app, go to the main folder of the project and type:
+To launch the web app, go to the main folder of the project release and type:
 
 ```bash
 ./run_server.sh
@@ -36,7 +37,10 @@ To launch the web app, go to the main folder of the project and type:
 
 Make sure that `./run_server.sh` has executable permission as well.
 
-The application will start in development mode on `localhost:8080`.
+The application will start on [http://localhost:8080/](http://localhost:8080/).
+
+### Testing the web app endpoints
+
 If you open your browser and navigate to [http://localhost:8080/v1/ui/](http://localhost:8080/v1/ui/) you can interact with it with a custom ui app to test the web app manually.
 
 ### Running the web app in Docker
@@ -46,6 +50,7 @@ If you use Docker, you can run the web app using docker by issuing:
 ```bash
 ./run_server_in_docker.sh
 ```
+The docker container will expose the application on [http://localhost:8080/](http://localhost:8080/).
 
 ## Troubleshooting
 
