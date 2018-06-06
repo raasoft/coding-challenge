@@ -8,6 +8,14 @@ install:
   - brew cask install homebrew/cask-versions/java8
   - brew install --HEAD swagger-codegen
 # command to run tests
-script: python3 -m invoke validate
+script:
+  - python3 -m invoke unittest
+  - ./run_server.sh &
+ 
 after_success:
   - cd build/app/ && codecov 
+  - python3 -m invoke validate
+
+
+after_script:
+  - killall Python

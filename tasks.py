@@ -4,7 +4,6 @@ from invoke import Executor
 import shutil
 import os
 import sys
-from multiprocessing import Process
 
 
 SRC_BASE_PATH = "src/app/"
@@ -150,13 +149,6 @@ def build(ctx):
     print("\n🎉🎉🎉 Coding Challenge app built with success!\n")
     print("Run `./run_server.sh` to launch the web app")
 
-def launch_webserver(ctx):
-    """thread worker function"""
-    print("\nLaunching web server in background...\n")
-
-    cmd = ("./run_server.sh &")
-    ctx.run(cmd, hide=True, warn=True)
-    return
 
 def launch_validation_testing(ctx):
     try:
@@ -177,6 +169,7 @@ def launch_validation_testing(ctx):
             except OSError as e:
                 if e.errno != 2:
                     raise e
+                    sys.exit(-1)
 
             shutil.copy(VALIDATION_SRC_BASE_PATH + f,
                         VALIDATION_BUILD_BASE_PATH + f)
@@ -186,28 +179,22 @@ def launch_validation_testing(ctx):
         result = ctx.run(cmd, hide=False, warn=True)
         if not result.ok:
             raise Exception("Error during functional testing!")
+            sys.exit(-1)
 
         os.chdir("../..")
+        return True
 
-    except Exception as e:
+    except Exception as excp:
         print("...with an error! 😡")
-        print(e)
+        print(excp)
         sys.exit(-1)
 
-@task(build)
+@task(splash)
 def validate(ctx):
     """ Generate source code for functional testing of the project """
     print("\n🚨 Launching functional tests...\n")
 
-    web_server = Process(target=launch_webserver(ctx))
-    validation_testing = Process(target=launch_validation_testing(ctx))
-
-    web_server.start()
-    validation_testing.start()
-
-    validation_testing.join()
-    web_server.terminate()
-    web_server.join()
+    launch_validation_testing(ctx)
 
     print("...successfully! ✅\n")
     print("📒  You can find a report at " + VALIDATION_BUILD_BASE_PATH + "nosetests.xml")
