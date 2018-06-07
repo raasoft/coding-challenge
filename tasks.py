@@ -53,12 +53,12 @@ RELEASE_FILES = ["build/app",
 
 @task
 def splash(ctx):
-    """ Splash screen """
+    """ Shows the splash screen """
     print("\n\n✨✨✨ Coding Challenge web app")
 
 @task
 def clean(ctx):
-    """ Clean target for the project """
+    """🗑  Clean target for the project """
 
     print("\n🗑  Cleaning the build directory...")
     try:
@@ -72,7 +72,7 @@ def clean(ctx):
 
 @task(clean)
 def generate(ctx):
-    """ Generate source code target for the project """
+    """ Generate source code for the project. Used by build target. """
     print("\n🔧 Generating code from APIs...\n")
 
     try:
@@ -114,7 +114,7 @@ def generate(ctx):
 
 @task(generate)
 def unittest(ctx):
-    """ Unit test target for the project """
+    """ Build the target and launches unit tests"""
     print("\n🚨 Launching unit tests...\n")
 
     try:
@@ -143,7 +143,7 @@ def unittest(ctx):
 
 @task(splash, generate, unittest)
 def build(ctx):
-    """ Build the whole project """
+    """ 🔧 Builds the whole project """
     print("\n🎉🎉🎉 Coding Challenge app built with success!\n")
     print("Run `./run_server.sh` to launch the web app")
 
@@ -188,7 +188,7 @@ def launch_validation_testing(ctx):
 
 @task(splash)
 def validate(ctx):
-    """ Generate source code for functional testing of the project """
+    """ 🚨  Launches validation testing (web server must be already running) """
     print("\n🚨 Launching functional tests...\n")
 
     launch_validation_testing(ctx)
@@ -199,7 +199,7 @@ def validate(ctx):
 
 @task(build)
 def release(ctx):
-    """ Creates a release creating an archive containing the whole app """
+    """ 📦  Creates a release creating an archive containing the whole app """
 
     print("\n📦 Creating compressed file archive in `" +
           RELEASE_FOLDER + "` folder...")
@@ -227,8 +227,22 @@ def release(ctx):
           " created with success!\n")
 
 @task(splash)
+def help(ctx):
+    """ 🚑  Shows help menu """
+    print("")
+    print("🚚 Enter: 'invoke run --rebuild' to build and run the web server")
+    print("🚨 Enter: 'invoke validate' to launch validation testing")
+    print("📕 Enter: 'invoke --list' to have the whole menu list")
+    print("")
+    print("For more extensive documentation, please read `Readme.md` and `DeveloperGuide.md`")
+    print("")
+    print("Bye! 👋")
+
+
+
+@task(splash)
 def run(ctx, rebuild=False, cfg="dev", docker=False):
-    """ Deploys and creates an archive containing the whole app """
+    """ 🚚 Build the web app (and then runs it if arg `--rebuild`). Runs in docker if `--docker` is specified. Optional args: [--rebuild] [--docker] [--cfg='dev|prod'] """
     print("\n🚚   Running Coding Challenge web app...")
     try:
         if rebuild:
