@@ -160,16 +160,18 @@ files in this folder are substituted to the boilerplate ones to implement the fe
 Each relevant file is documented with some inline comments to get you started. 
 Here we’ll go through the main ones.
 
-##### <kbd>api/swagger.yaml</kbd> file
+##### <kbd>api/swagger.yaml</kbd> source file
 
 This is the OpenAPI specification. From this file, **all the boilerplate code** is generated.
 
-##### <kbd>app/swagger_server/controllers/configuration_controller.py</kbd>  file
+##### <kbd>app/swagger_server/controllers/configuration_controller.py</kbd> source file
 
-This file contains the business logic of the whole project.
+This file contains the business logic of the whole project: all the REST endpoints
+controllers lie here.
+
 If you want to edit a particular API behaviour, **this is the main file to edit**.
 
-##### <kbd>app/swagger_server/test/test_configuration_controller.py</kbd> file
+##### <kbd>app/swagger_server/test/test_configuration_controller.py</kbd> source file
 
 This file contains the unit and integration test for the whole project.
 If you want to add/edit/delete a unit test, this is the main file to edit.
@@ -182,7 +184,7 @@ method must start with the prefix `test_`.
 To create a new class, just copy an existing class file and rename it (maintaining it 
 in the same folder), both class name and file name.
 
-##### <kbd>app/swagger_server/func_test/test/test_configuration_api.py</kbd> file
+##### <kbd>app/swagger_server/func_test/test/test_configuration_api.py</kbd> source file
 
 This file contains the validation tests for the whole project (e.g. a particular API needs
 to answer in no more than 200 ms).

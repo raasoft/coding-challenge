@@ -1,6 +1,4 @@
 from invoke import task
-from invoke import tasks
-from invoke import Executor
 import shutil
 import os
 import sys
@@ -134,9 +132,9 @@ def unittest(ctx):
 
         os.chdir("../..")
 
-    except Exception as e:
+    except Exception as excp:
         print("...with an error! 😡")
-        print(e)
+        print(excp)
         sys.exit(-1)
 
     print("\n...successfully! ✅\n")
@@ -151,8 +149,9 @@ def build(ctx):
 
 
 def launch_validation_testing(ctx):
+    """ Generate validation testing client and then launchs it """
     try:
-        print("Generating functional testing from APIs...")
+        print("Generating validation testing from APIs...")
         cmd = ("swagger-codegen generate -i src/api/swagger.yaml"
                " -l python -o " + VALIDATION_BUILD_BASE_PATH
               )
@@ -163,23 +162,21 @@ def launch_validation_testing(ctx):
 
         print("Updating functional testing files "
               "with updated business logic...")
-        for f in FUNC_TEST_FILES:
+        for functestfile in FUNC_TEST_FILES:
             try:
-                os.remove(VALIDATION_BUILD_BASE_PATH + f)
-            except OSError as e:
-                if e.errno != 2:
-                    raise e
-                    sys.exit(-1)
+                os.remove(VALIDATION_BUILD_BASE_PATH + functestfile)
+            except OSError as excp:
+                if excp.errno != 2:
+                    raise excp
 
-            shutil.copy(VALIDATION_SRC_BASE_PATH + f,
-                        VALIDATION_BUILD_BASE_PATH + f)
+            shutil.copy(VALIDATION_SRC_BASE_PATH + functestfile,
+                        VALIDATION_BUILD_BASE_PATH + functestfile)
 
         os.chdir(VALIDATION_BUILD_BASE_PATH)
         cmd = 'tox -e py36'
         result = ctx.run(cmd, hide=False, warn=True)
         if not result.ok:
             raise Exception("Error during functional testing!")
-            sys.exit(-1)
 
         os.chdir("../..")
         return True
@@ -197,7 +194,8 @@ def validate(ctx):
     launch_validation_testing(ctx)
 
     print("...successfully! ✅\n")
-    print("📒  You can find a report at " + VALIDATION_BUILD_BASE_PATH + "nosetests.xml")
+    print("📒  You can find a report at " +
+          VALIDATION_BUILD_BASE_PATH + "nosetests.xml")
 
 @task(build)
 def release(ctx):
@@ -219,19 +217,19 @@ def release(ctx):
         if not result.ok:
             raise Exception("Cannot create zip file")
 
-    except Exception as e:
+    except Exception as excp:
         print("...with an error! 😡")
-        print(e)
+        print(excp)
         sys.exit(-1)
 
     print("...successfully! ✅")
-    print("\n🎉🎉🎉 Coding Challenge app " + ARCHIVE_FILENAME + 
+    print("\n🎉🎉🎉 Coding Challenge app " + ARCHIVE_FILENAME +
           " created with success!\n")
 
 @task(splash)
 def run(ctx, rebuild=False, cfg="dev", docker=False):
     """ Deploys and creates an archive containing the whole app """
-    print("\n🚚   Running Coding Challenge web app...")    
+    print("\n🚚   Running Coding Challenge web app...")
     try:
         if rebuild:
             cmd = ('inv build')
@@ -245,9 +243,9 @@ def run(ctx, rebuild=False, cfg="dev", docker=False):
         if not result.ok:
             raise Exception("Error during running the server!")
 
-    except Exception as e:
+    except Exception as excp:
         print("...with an error! 😡")
-        print(e)
+        print(excp)
         sys.exit(-1)
-    
+
     print("\n👋  Closing Coding Challenge app! Bye!")
