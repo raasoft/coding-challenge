@@ -10,11 +10,10 @@ HTTP API for managing the configuration values of a system.
 
 * [TOC](#TOC)
     - [Dependencies and Requirements](#dependencies-and-requirements)
-        - [Installation of dependencies on OSX](#installation-of-dependencies-on-osx)
-        - [Other Platforms](#other-platforms)
-    - [Building the web app](#building-the-web-app)
     - [Running the web app](#running-the-web-app)
         - [Testing the web app endpoints](#Testing-the-web-app-endpoints)
+            - [Manual testing via Web UI](#manual-testing-via-web-ui)
+            - [Validation testing](#validation-testing)
     - [API Documentation](#api-documentation)
     - [Troubleshooting](#troubleshooting)
     - [Developer Guide](#developer-guide)
@@ -27,8 +26,9 @@ To launch the web app you need to install on your local machine:
 
 ## Running the web app
 
-If you don't already have a release of the web app, **you need to build it first**.
-Follow [this section](#DeveloperGuide.md) to build it, then continue reading here.
+If you don't already have a release of the web app, _you need to build it first_.
+
+**To build the web app**, follow [this section](#DeveloperGuide.md) of `DeveloperGuide.md` document, then continue reading here.
 
 To launch the web app, go to the main folder of the project release and type:
 
@@ -51,9 +51,14 @@ The docker container will expose the application on [http://localhost:8080/](htt
 
 ## Testing the web app endpoints
 
+
+### Manual testing via Web UI
+
 If you open your browser and navigate to [http://localhost:8080/v1/ui/](http://localhost:8080/v1/ui/) you can interact with it with a custom ui app to test the web app manually.
 
-If you want to execute validation tests, you need to setup a development environment where to launch validation tests. Please read [this section](DeveloperGuide.md#validation-testing) to launch validation tests.
+### Validation Testing
+
+If you want to execute **unit tests** or **validation tests**, you need to setup a full development environment where to launch validation tests, by cloning [the project repository](https://github.com/raasoft/coding-challenge.git) and then reading [this section](DeveloperGuide.md#validation-testing) of the `DeveloperGuide.md` document.
 
 
 # API Documentation
@@ -73,4 +78,4 @@ In future releases we are going to let the user decide a custom address.
 
 # Developer Guide
 
-Please refer to [Developer Guide](./DeveloperGuide.md)
+Please refer to [Developer Guide](./DeveloperGuide.md) to know how to contribute to this project and to know how to perform validation testing.
