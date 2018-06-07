@@ -1,21 +1,22 @@
 # ref: https://docs.travis-ci.com/user/languages/python
 os:
   - osx
+
 # command to install dependencies
 install: 
   - brew upgrade python
   - pip3 install -r src/app/requirements.txt
   - brew cask install homebrew/cask-versions/java8
   - brew install --HEAD swagger-codegen
-# command to run tests
 
+  # command to run tests
 script:
-  - python3 -m invoke unittest
+  - python3 -m invoke unittest # start unit testing
   - ./run_server.sh &
-  - sleep 10
-  - python3 -m invoke validate
+  - sleep 20 # let web server start
+  - python3 -m invoke validate # start validation testing
 
 after_script:
-  - killall Python 
+  - killall Python  # close the web server
   - cd build/app/
-  - codecov 
+  - codecov         # send code coverage info
