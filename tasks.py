@@ -242,7 +242,12 @@ def help(ctx):
 
 @task(splash)
 def run(ctx, rebuild=False, cfg="dev", docker=False):
-    """ 🚚 Build the web app (and then runs it if arg `--rebuild`). Runs in docker if `--docker` is specified. Optional args: [--rebuild] [--docker] [--cfg='dev|prod'] """
+    """ 
+    🚚 Run the web app (and then builds it if arg `--rebuild` is specified). 
+    Runs in docker if `--docker` is specified. 
+    
+    Optional args: [--rebuild] [--docker] [--cfg='dev|prod'] 
+    """
     print("\n🚚   Running Coding Challenge web app...")
     try:
         if rebuild:
